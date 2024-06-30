@@ -27,4 +27,41 @@ while(i<=n+m-1&&j<n)
     }
 }
     }
-};
+};///////////////////////////////第一次写，缺少判断负数的情况
+///////////////////////////////////////////////////////
+答案纠正 ，可以不必太拘束，创建一个数组来存放答案           初始化vector也需要分配大小 vector<int> nums3(n+m);   同时使用太多次while会导致超时，尝试用if//
+或是while 里嵌套if
+
+
+class Solution {
+public:
+    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+int i=0,j=0;
+vector<int> nums3(m+n);
+int cur=0;
+while(i<m||j<n)          //确保在任何情况下都不会访问超出数组边界的元素。具体来说，我们需要确保在 i == m 或 j == n 的情况下，不会再访问 nums1[i] 或 nums2[j]
+{
+    //一轮塞入一个，不断在while内直到把素组塞满
+   if(i==m)
+   {
+    nums3[cur++]=nums2[j++];
+   } 
+    else if(j==n)
+   {
+    nums3[cur++]=nums1[i++];
+   }
+   else if(nums1[i]<=nums2[j])
+   {
+    nums3[cur++]=nums1[i++];
+   } 
+   else
+   {
+     nums3[cur++]=nums2[j++];
+   }              
+}
+for(int i=0;i<m+n;i++)
+{
+    nums1[i]=nums3[i];
+}
+}
+    };
