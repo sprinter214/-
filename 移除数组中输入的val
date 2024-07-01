@@ -1,0 +1,14 @@
+int removeElement(vector<int>& nums, int val) {
+        int origal=nums.size();
+        int left=0;
+        for(int rigth=0;rigth<origal;rigth++)
+        {
+            if(nums[rigth]!=val)
+            {
+               nums[left]=nums[rigth];
+               left++;
+            }
+        }
+    return left;
+    }
+//利用双指针，left为需要保留数的下标，而right为遍历的数，若数组的值等于val，则left不变，right往右移，若不相等则 nums[left]=nums[rigth];，left和right同时往右移
