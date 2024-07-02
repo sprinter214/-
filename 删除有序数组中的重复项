@@ -38,3 +38,39 @@ int removeDuplicates(vector<int>& nums) {
         }
         return left+1;
     }
+////////////////////////////////////////////////////////题目改为删除重复两个以上的元素
+ int n=nums.size();//第一次
+        if(n==0)
+        {
+            return 0;
+        }
+        int left=1;
+        for(int right=1;right<n;right++)
+        {
+            if(nums[right]!=nums[right-1]||nums[right]!=nums[right-2]) //当right为时，数组会访问right-2，导致越界
+            {
+                nums[left]=nums[right];
+                left++;
+            }
+        }
+        return left;
+/////////////////////////////////////////因此修改为
+int n=nums.size();
+        if(n==0||n==1)
+        {
+            return n;
+        }
+        int left=2;////////left和right 初始化为2，因为前两个元素默认保留。
+
+        for(int right=2;right<n;right++)
+        {
+            if(nums[right]!=nums[left-1]||nums[right]!=nums[left-2])  //左边的条件也是多余的，只保留
+//因此，你需要确保当前元素 nums[right] 不与前面两个已经确认保留的元素相同。由于 left 指针指向的是下一个可放置位置，
+//因此 left - 1 和 left - 2 指向的是已经保留在去重数组中的最后两个元素。   
+//如果你使用的是right-2/right-1，那么就会把先前赋值的left也算进去，以至于本来是两个2变成了3个2导致误判
+            {
+                nums[left]=nums[right];
+                left++;
+            }
+        }
+        return left;
