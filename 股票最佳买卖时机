@@ -15,7 +15,7 @@ int maxProfit(vector<int>& prices) {
         if(max<0)
         max=0;
         return max;
-    } /////////////////////////////////////////初版(暴力算法)  超出时间限制dame 时间复杂度O(n);
+    } /////////////////////////////////////////初版(暴力算法)  超出时间限制dame 时间复杂度O(n^2);
 
 int maxProfit(vector<int>& prices) {  /////////////////////运用c++自带的比较函数，一个循环解决
         int n=prices.size();
@@ -28,3 +28,45 @@ int maxProfit(vector<int>& prices) {  /////////////////////运用c++自带的比
     }
     return maxProfit;
     }
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+最佳股票变种，可以随时售卖股票，不限一只股，但最多手头只能拥有一只
+int maxProfit(vector<int>& prices) { ///////////////动态规划法
+        int n=prices.size();
+        int dp[n][2];      ////创建数组
+        dp[0][0]=0;
+        dp[0][1]=-prices[0];
+        for(int i=1;i<n;i++)
+        {
+            dp[i][0]=max(dp[i-1][0],dp[i-1][1]+prices[i]);    ///截至到当天交易后未持股的最大收益，转移方程为max（截至到前一天未持股的最大收益或前一天持股，但今天兜售后最大收益），取最大值        
+            dp[i][1]=max(dp[i-1][1],dp[i-1][0]-prices[i]);     下方同理
+        }
+        return dp[n-1][0];
+////////////////////////////////////由于只跟前一天有关，可以把空间优化使空间复杂度降至O（1）；无需使用dp[n][2]创建数组；
+ int maxProfit(vector<int>& prices) { 
+        int n=prices.size();
+        int dp0=0;
+        int dp1=-prices[0];
+        for(int i=1;i<n;i++)
+        {
+            dp0=max(dp0,dp1+prices[i]);
+            dp1=max(dp1,dp0-prices[i]);
+        }
+        return dp0;
+    }
+//////////////////////////////////////////贪心算法，预知明天赚了就买，亏了不买
+int maxProfit(vector<int>& prices) {
+        int n=prices.size();
+        if(n<=1)
+        return 0;
+        int maxprofit=0;
+        for(int i=0;i<n-1;i++)
+        {
+            int temp=prices[i+1]-prices[i];
+            if(temp>0)
+            maxprofit+=temp;
+        }
+        return maxprofit;
+    }
+
+
