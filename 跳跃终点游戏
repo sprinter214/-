@@ -1,0 +1,11 @@
+ bool canJump(vector<int>& nums) {
+        int n=nums.size();
+        int dp[n];
+        dp[0]=nums[0];
+        for(int i=1;i<n;i++)
+        {
+            if(i>dp[i-1])         ////////////k是道路，i是人的位置，只要道路不断延伸，就能走到终点，若i>k,则退出遍历，必定走不到终点。若循环能完整结束，则说明能到重点
+            return false;
+            dp[i]=max(dp[i-1],i+nums[i]);
+        }
+        return true;////////////////////////跳跃游戏，使用动态规划，dp存储能够跳跃的最大值。
