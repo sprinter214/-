@@ -1,0 +1,33 @@
+/////////////暴力算法
+ int end=0;
+        int start=0;
+        int count=0;
+        int n=nums.size();
+        while(end<=n-1)
+        {
+            for(int i=start+1;i<=nums[start];i++) ///////////////  i<n是必须要保证的，否则会出现超出数组范围
+            {
+                if(nums[i]>nums[start])
+                {
+                    start=i;
+                }
+            }
+            count++;
+            end=start+nums[start];
+    }
+    return count;              /////////////////事实上不需要这个while循环
+    int maxPos = 0;       // 能跳到的最远位置
+    int n = nums.size();  // 数组的长度
+    int end = 0;          // 当前跳跃范围的末尾位置
+    int step = 0;         // 记录跳跃次数
+
+    for (int i = 0; i < n - 1; ++i) {  // 遍历数组的每个元素（除了最后一个元素）
+        if (maxPos >= i) {  // 只有当当前位置在当前能跳到的最远位置内时，才更新最远位置
+            maxPos = max(maxPos, i + nums[i]);  // 更新能跳到的最远位置
+            if (i == end) {  // 如果当前位置是当前跳跃范围的末尾
+                end = maxPos;  // 更新跳跃范围的末尾位置为能跳到的最远位置
+                ++step;  // 增加跳跃次数
+            }
+        }
+    }
+    return step;  // 返回跳跃次数
