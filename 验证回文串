@@ -1,0 +1,22 @@
+////////isalnum 是 C++ 中的一个函数，用于检查一个字符是否是字母或数字。它的用法非常简单，接受一个字符作为参数，
+并返回一个非零值（通常是 true）如果字符是字母（a-z、A-Z）或数字（0-9），否则返回 0（通常是 false）。
+bool isPalindrome(string s) {
+        int n=s.size();
+        int left=0;
+        int right=n-1;
+        while(left<right)
+        {
+            while(left<right&&!isalnum(s[left]))
+            left++;
+            while(left<right&&!isalnum(s[right]))          isalnum，判断是否为字母或数字
+            right--;
+            if(left<right)                  //比较前仍需要加left<right 的判断
+            {
+            if(tolower(s[left])!=tolower(s[right]))    //把大写字母转化为小写
+            return false;
+            }
+            left++;
+            right--;
+        }
+        return true;
+    }
