@@ -1,0 +1,18 @@
+bool canConstruct(string ransomNote, string magazine) {
+        if(ransomNote.size()>magazine.size())
+        return false;
+        vector<int> cnt(26);
+        for(auto&c:magazine)   //遍历字符串中的每一个字符，auto&c将表示c会引用magazine中的每一个字符，避免不必要的拷贝
+        {
+            cnt[c-'a']++;
+        }
+        for(auto&c:ransomNote)
+        {
+            cnt[c-'a']--;
+            if(cnt[c-'a']<0)
+            {
+                return false;
+            }
+        }
+        return true;
+    }
