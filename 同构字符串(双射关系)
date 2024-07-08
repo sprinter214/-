@@ -1,0 +1,17 @@
+bool isIsomorphic(string s, string t) {
+        if(s.size()!=t.size())
+        return false;
+        unordered_map<char,char> s2t; //创建不可重复一一对应的map容器
+        unordered_map<char,char> t2s;
+        int len=s.size();
+        for(int i=0;i<len;i++)////遍历数组的每一个字符，x是s的当前字符，y是t的当前字符
+        {
+            int x=s[i],y=t[i];    
+            if((s2t.count(x)&&s2t[x]!=y)||(t2s.count(y)&&t2s[y]!=x)) ////s2t.count(x)用于检测某个键是否存在  
+                        //若键存在，且映射关系不等于y，则返回false；
+            return false;
+            s2t[x]=y;      ////s2t[x] 表示在 unordered_map s2t中，键x对应的值。
+            t2s[y]=x;
+        }
+        return true;
+    }
