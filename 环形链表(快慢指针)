@@ -1,0 +1,24 @@
+Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+        if(head==nullptr) //确保传入的指针不为空指针，否则返回false，要最先行，否则会操作nullptr指针
+    return false;
+    ListNode *slow=head;
+    ListNode *fast=head->next;
+    while(fast!=slow) //当fast的下一个指针为空时退出循环，或fast本身就为空
+    {
+        if(fast==nullptr||fast->next==nullptr)  //访问指针的成员之前，确保指针不是nullptr
+        {
+            return false;
+        }
+        slow=slow->next;
+        fast=fast->next->next;
+    }
+    return true;
