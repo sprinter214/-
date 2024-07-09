@@ -1,0 +1,26 @@
+bool isValid(string s) {
+        int n=s.size();
+        if(n%2==1)           //长度若为奇数返回false
+        return false;
+        unordered_map<char,char> hash={{')','('},{'}','{'},{']','['}}; //给map赋值使用大括号分开每一对
+        stack<char> stk;     //创建stack的格式
+        for(char ch:s)
+        {
+            if(hash.count(ch)) //判断是否为右括号，count函数计算实值出现的次数，在map中只有0或1
+0            {
+                if(stk.empty()||stk.top()!=hash[ch]) //由于右括号需要和刚压入栈的符号进行配对，所以判断条件为————栈是否为空或栈顶与该键的实值是否相同
+                {
+                    return false;
+                }
+                else
+                {
+                    stk.pop();   //如果相同则弹出栈顶
+                }
+            }
+            else
+            {
+                stk.push(ch);  //若不是右括号，则把左括号压入栈中
+            }
+        }
+        return stk.empty(); //若最后栈为空，表明所有左括号都被匹配，返回true;
+    }
