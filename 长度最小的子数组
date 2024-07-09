@@ -1,0 +1,27 @@
+//////第一种暴力算法，时间为O(n^2)
+/////第二种确认了开始的下标后，由于数组是都是正数，前缀和必为递增，只需找到第一个大于target的那个位置即可，后面的不用再算，使用二分查找法可得
+int minSubArrayLen(int target, vector<int>& nums) {
+        int n=nums.size();
+        if(n==0)
+        return 0;
+         int ans=INT_MAX;
+        vector<int> sums(n+1,0);  //vector的初始化，容量大小和值可同时赋值
+        for(int i=1;i<=n;i++)
+        {
+            sums[i]=sums[i-1]+nums[i-1];        //sums[i]是当前位置的前n个元素的前缀和
+        }
+        for(int i=1;i<=n;i++)
+        {
+            int target1=target+sums[i-1];
+            auto bound=lower_bound(sums.begin(),sums.end(),target1);//在前缀和中找到第一个大于等于target的   //此处bound返回的是一个迭代器位置
+            if(bound!=sums.end())//我们需要确保 bound 不是 sums.end()，
+            //即确保找到了一个不小于 target 的元素。
+            {
+            ans=min(ans,static_cast<int>(bound-sums.begin())-i+1);//计算长度-----两下标相减加一     //bound-sums.begin()返回std::ptrdiff_t类型，需要转化为int
+            }
+        }
+        return ans==INT_MAX?0:ans;
+    }
+lower_bound 是 C++ 标准库中的一个算法函数，定义在 <algorithm> 头文件中。
+  它用于在有序范围内查找第一个不小于给定值的元素的位置。lower_bound 使用二分查找算法，因此时间复杂度为 O(log n)，适用于有序容器如 std::vector、std::deque 等。
+/////第三种是滑动窗口
