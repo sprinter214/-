@@ -1,0 +1,72 @@
+int lengthOfLongestSubstring(string s) {   ////自写
+        int n=s.size();
+        int *alphabet=new int[26];
+        for(int i=0;i<26;i++)
+        {
+            alphabet[i]=-1;
+        }
+        int curlen=0;
+        int maxlen=0;
+        for(int i=0;i<n;i++)
+        {
+            int position=alphabet[s[i]-'a'];//检查字母是否出现过，或是得到上次出现的距离
+            if(position<0||i-position>curlen)
+            {
+                curlen++;
+            }
+            else
+            {
+                if(curlen>maxlen)
+                {
+                    maxlen=curlen;
+                }
+                curlen=i-position;
+            }
+             alphabet[s[i]-'a']=i;
+        }
+         if(curlen>maxlen)
+        {
+            maxlen=curlen;
+        }
+        delete[] alphabet;
+        return maxlen;
+    } 
+////////////////////////////////////////当输入不仅仅是小写字母时，算法规律总结(方法二)
+int lengthOfLongestSubstring(string s) {
+            int n = s.size();
+    vector<int> alphabet(256, -1);  // 支持所有ASCII字符
+    int curlen = 0;
+    int maxlen = 0;
+    
+    for (int i = 0; i < n; i++) {
+        int position = alphabet[s[i]]; // 检查字符上次出现的位置           curlen 表示当前无重复字符的子字符串长度
+        if (position < 0 || i - position > curlen) {   //若该字符上一次出现的位置在当前无重复字符的子字符串长度以外，则子字符串加上新的字符，长度加一
+            curlen++;
+        } else {
+            curlen = i - position; // 更新当前长度
+        }
+        alphabet[s[i]] = i; // 更新字符出现的位置
+        maxlen = max(maxlen, curlen); // 更新最大长度
+    }
+    return maxlen;
+    }
+
+////////////////////////////////////////////////方法三，滑动窗口方法
+int lengthOfLongestSubstring(string s) {
+            int n = s.size();
+            unordered_set<char> occ;
+            int rk=-1,ans=0;
+            for(int i=0;i<n;i++)////////////////即使for内存有while，由于左指针和右指针rk都不会往回遍历，所以时间复杂度为O(n);
+            {
+                if(i!=0)
+                {
+                    occ.erase(s[i-1]);
+                }
+                while(rk+1<n&&occ.count(s[rk+1]))      /////关键点rk + 1 < n 确保不会越界。!occ.count(s[rk + 1]) 确保即将加入的字符在当前窗口内没有重复。 occ.insert(s[++rk]) 将字符插入集合并移动右指针。
+                {
+                    occ.insert(s[rk+1]);
+                    ++rk;
+                }
+                ans=max(ans,rk-i+1);
+            }
+            return ans;
