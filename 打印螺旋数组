@@ -1,0 +1,41 @@
+vector<int> spiralOrder(vector<vector<int>>& matrix) {
+        if(matrix.size()==0||matrix[0].size()==0)
+        return {};/////////返回空数组写中括号，而非0
+    int row=matrix.size();               
+    int colunm=matrix[0].size(); //容器获取长度的方式
+    vector<int> ans;
+    int rowbegin=0;             //定义每行每列的起始点
+    int colunmbegin=0;                                 
+    while(true)           //一直循环，但是break需要在内部写
+    {
+        for(int i=colunmbegin;i<=colunm-1;i++)
+        {
+            ans.push_back(matrix[rowbegin][i]);  //push_back带有下划线
+        }
+        rowbegin++;
+        if(rowbegin>row-1)
+        break;                                         //对于不规则的矩阵，最后结束的判断有四种情况，因此每个for都需要有break;
+        for(int i=rowbegin;i<=row-1;i++)
+        {
+            ans.push_back(matrix[i][colunm-1]);
+        }
+        colunm--;
+        if(colunmbegin>colunm-1)
+        break;
+        for(int i=colunm-1;i>=colunmbegin;i--)
+        {
+            ans.push_back(matrix[row-1][i]); 
+        }
+        row--;
+        if(rowbegin>row-1)
+        break;
+        for(int i=row-1;i>=rowbegin;i--)
+        { 
+            ans.push_back(matrix[i][colunmbegin]);
+        }
+        colunmbegin++;
+        if(colunmbegin>colunm-1)
+        break;
+    }
+    return ans;
+ }
