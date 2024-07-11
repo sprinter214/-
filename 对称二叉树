@@ -1,0 +1,23 @@
+class Solution {
+public:
+    bool isSymmetric(TreeNode* root) {   //solution 内是否可以编写函数          在public的同一栏声明函数构造函数即可
+       return isSymmetrical(root,root);
+    }
+    bool isSymmetrical(TreeNode* root1,TreeNode* root2)              //对一棵树进行不同的顺序遍历比对，可以赋值根节点使用两棵树
+    {
+        if(root1==nullptr&&root2==nullptr)
+        return true;
+        else if(root1==nullptr||root2==nullptr)
+        {
+            return false;
+        }
+        else if(root1->val!=root2->val)
+        {
+            return false;
+        }
+        else
+        {
+            return isSymmetrical(root1->left,root2->right)&&isSymmetrical(root1->right,root2->left);
+        }
+    }
+};
