@@ -1,0 +1,11 @@
+class Solution {   ///判断根节点是否右路径总和，递归为判断左右子节点之一是否有路径总和。
+public:
+    bool hasPathSum(TreeNode* root, int targetSum) {
+        if(root==nullptr)                                //设想根节点和第一个左右子节点为空会怎么样，递归到子叶节点时又会是什么情况。
+        return false;
+        if(root->left==nullptr&&root->right==nullptr)
+        return root->val==targetSum;
+
+        return hasPathSum(root->left,targetSum-root->val)||hasPathSum(root->right,targetSum-root->val);
+    }
+};
