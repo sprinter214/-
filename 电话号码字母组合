@@ -1,0 +1,26 @@
+class Solution {
+    string MAPPING[10] = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+    vector<string> ans;
+    string path;
+
+    void dfs(const string& digits, int i, int n) {
+        if (i == n) {
+            ans.emplace_back(path);
+            return;
+        }
+        for (char c : MAPPING[digits[i] - '0']) {
+            path[i] = c; // 直接覆盖
+            dfs(digits, i + 1, n);/////////////////参数为，传入的数字字符串，当前要存储的path下标(同时也是digtals输入数字达到下标，一一对应),以及digtals的长度；
+        }
+    }
+
+public:
+    vector<string> letterCombinations(string digits) {
+        int n = digits.length();
+        if (n == 0) return {};
+        path.resize(n); // 本题 path 长度固定为 n           path.resize(n) 确保 path 的长度与 digits 相同。
+        ans.clear();             //如果 ans 不清空，在新的调用中会混入之前结果的内容，导致最终结果包含不相关的组合
+        dfs(digits, 0, n); 
+        return ans;
+    }
+};
