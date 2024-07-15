@@ -1,0 +1,28 @@
+class Solution {
+public:
+    vector<int> path;
+    vector<vector<int>> ans;
+    int k;
+    void dfs(int n)
+    {
+        int d=k-path.size();
+        if(d==0)
+        {
+            ans.emplace_back(path);  //函数emplace_back 类似于push_back;
+            return;
+        }
+        for(int j=n;j>=d;j--)
+        {
+            path.push_back(j);
+            dfs(j-1);
+            path.pop_back();
+        }
+    }
+    vector<vector<int>> combine(int n, int k) {
+     path.clear(); // 确保路径为空
+        ans.clear();  // 确保结果集为空              确保每次调用 combine 时，这两个容器都是空的，以免受到之前调用的影响。现实中会反复调用。
+        path.resize(k);
+        dfs(n);
+        return ans;
+    }
+};/////////////////////超出时间限制？？         把path.resize(k);改为this->k=k;  你并不需要提前调整 path 的大小，因为你是在递归过程中动态地增加和减少元素。
