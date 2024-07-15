@@ -1,0 +1,66 @@
+class Solution {
+public:
+    vector<int>path,on_path;
+    vector<vector<int>> ans;
+    int n;
+    void dfs(int i)
+    {
+        if(path.size()==n)
+        {
+            ans.emplace_back();
+            return;
+        }
+        else
+        {
+           for(int j=i;j<n;j++)
+           {
+            if(!on_path[j])
+            {
+                path[i]=nums[j];      ////////////////没有正确传递nums参数 
+                on_path[j]=true;
+                dfs(j+1);
+                on_path[j]=false;
+            }
+           } 
+        }
+    }
+    vector<vector<int>> permute(vector<int>& nums) {
+        int n=nums.size();
+        dfs(0);
+        return ans;
+    }
+};
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////
+class Solution {
+public:
+    vector<vector<int>> ans;
+    int n;
+    vector<int>path,on_path;
+    void dfs(vector<int>&nums,int i)               //因此递归参数应该添加一个数组
+    {
+        if(path.size()==n)
+        {
+            ans.emplace_back(path);
+            return;
+        }
+           for(int j=0;j<n;j++) //每次检索都从下标0开始
+           {
+            if(!on_path[j])
+            {
+                path.push_back(nums[j]);
+                on_path[j]=true;
+                dfs(nums,i+1);        ////应递归到i+1而不是j+1
+                on_path[j]=false;
+                path.pop_back(); // 恢复现场
+            }
+           } 
+    }
+    vector<vector<int>> permute(vector<int>& nums) {
+        n=nums.size();    //不能使用int n，因为递归使用的n是类成员变量，而不是局部变量
+        path.clear();
+        on_path.assign(n, 0);
+         ans.clear();
+        dfs(nums,0);
+        return ans;
+    }
+};
