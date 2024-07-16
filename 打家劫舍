@@ -1,0 +1,60 @@
+class Solution {                ////////////////////////////////下标错误的经典例子
+public:
+    int rob(vector<int>& nums) {
+        int n=nums.size();
+        if(n==0)
+          return 0;
+        if(n==1)
+          return nums[0];
+        vector<int> cursums(n,0);
+        cursums[0]=nums[0];   
+        cursums[1]=max(nums[0],nums[1]);                  //若n=1，nums数组存在访问内存之外的数据问题       heap-buffer-overflow ，所以该往前添加if条件判断
+        for(int i=2;i<=n;i++)                             //在循环中，索引范围应为 i < n，而不是 i <= n
+        {
+            cursums[i]=max(cursums[i-1],cursums[i-2]+nums[i]);
+        }
+        return cursums[n];                                     //产生下标引索越界问题，因为cursum数组大小为n;
+
+    }
+};
+
+
+class Solution {                      ///////////////////////////////////////////////////自己版本的修正   
+public:
+    int rob(vector<int>& nums) {
+        int n=nums.size();
+        if(n==0)
+          return 0;
+        if(n==1)
+          return nums[0];
+        vector<int> cursums(n,0);
+        cursums[0]=nums[0];
+        cursums[1]=max(nums[0],nums[1]);
+        for(int i=2;i<n;i++)
+        {
+            cursums[i]=max(cursums[i-1],cursums[i-2]+nums[i]);
+        }
+        return cursums[n-1];//产生下标引索越界问题，因为cursum数组大小为n;
+
+    }
+};、                              
+
+  class Solution {                                    /////////////////////考虑到每间房屋的最高总金额只和该房屋的前两间房屋的最高总金额相关，因此可以使用滚动数组
+public:
+    int rob(vector<int>& nums) {
+        int n=nums.size();
+        if(n==0)
+          return 0;
+        if(n==1)
+          return nums[0];
+       int first=nums[0],second=max(nums[0],nums[1]);
+        for(int i=2;i<n;i++)
+        {
+            int temp=second;
+            second=max(second,first+nums[i]);
+            first=temp;
+        }
+        return second; //产生下标引索越界问题，因为cursum数组大小为n;
+    }
+};
+  
