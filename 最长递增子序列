@@ -1,0 +1,16 @@
+class Solution {
+public:
+    int lengthOfLIS(vector<int>& nums) {
+        int n=nums.size();
+        vector<int> dp(n,1);    ///////////////每一个元素的子序列都至少为1
+        for(int i=0;i<n;i++)     //从第一个元素开始，寻找每个元素的最长递增子序列
+        { 
+            for(int j=0;j<i;j++)   ////当前元素的最长子序列等于该子序列的上一个元素的最长子序列
+            {
+                if(nums[j]<nums[i])
+                dp[i]=max(dp[i],dp[j]+1);   //因为答案最后存储在dp[i]中，所以形式上是dp[i]与各个dp[j]+1对比找最大值，但实际上是求解各dp[j]里的最大值
+            }
+        }
+         return *max_element(dp.begin(),dp.end());//返回指向范围中最大元素的迭代器，解引用这个迭代器就得到该最大元素的值。
+    }
+};
