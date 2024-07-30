@@ -15,7 +15,7 @@ public:
                 }
             }
         }
-        return dp[amount]<Max? dp[amount]:-1;
+        return dp[amount]<Max? dp[amount]:-1;  //直接返回查找所需面值的最小次数
     }
 };
 内嵌for循环的意义：min(dp[i], dp[i-coins[j]] + 1) 的目的是选择当前已知的凑成 i 的最小硬币数（dp[i]）和使用 coins[j] 后的
