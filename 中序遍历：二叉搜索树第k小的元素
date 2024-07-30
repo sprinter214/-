@@ -1,0 +1,16 @@
+class Solution {
+public:
+ vector<int> tree;
+    void midselect(TreeNode* root)
+    {
+        if(root==nullptr)             |||
+        return;                                 不断地递归开拓新的左子树
+        midselect(root->left);        |||
+        tree.push_back(root->val);                到这可看作是最左端的节点，存入该节点到数组，于是检查他的右子树
+        midselect(root->right);
+    }
+    int kthSmallest(TreeNode* root, int k) {
+        midselect(root);
+        return tree[k-1];
+    }
+};
