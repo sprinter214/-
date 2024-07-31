@@ -35,8 +35,8 @@ class Solution {
 public:
     vector<vector<int>> ans;
     int n;
-    vector<int>path,on_path;
-    void dfs(vector<int>&nums,int i)               //因此递归参数应该添加一个数组
+    vector<int>path,on_path;                   path: 当前排列路径，用于存储每次递归中的一个排列。on_path: 用于跟踪哪些元素已经在当前排列路径 path 中，以避免重复使用相同元素。
+    void dfs(vector<int>&nums,int i)               //因此递归参数应该添加一个数组   vector<int>& nums: 参考传递的原数组     int i: 当前递归的深度
     {
         if(path.size()==n)
         {
@@ -49,7 +49,7 @@ public:
             {
                 path.push_back(nums[j]);
                 on_path[j]=true;
-                dfs(nums,i+1);        ////应递归到i+1而不是j+1
+                dfs(nums,i+1);        ////应递归到i+1而不是j+1          在组合的基础上添加了on_path标志位，所以核心部分的恢复现场也需要把标志位变更
                 on_path[j]=false;
                 path.pop_back(); // 恢复现场
             }
@@ -58,9 +58,12 @@ public:
     vector<vector<int>> permute(vector<int>& nums) {
         n=nums.size();    //不能使用int n，因为递归使用的n是类成员变量，而不是局部变量
         path.clear();
-        on_path.assign(n, 0);
+        on_path.assign(n, 0);      on_path.assign(n, 0);: 初始化 on_path 向量为 n 个 0，表示所有元素均未使用。
          ans.clear();
-        dfs(nums,0);
+        dfs(nums,0);            dfs(nums, 0);: 调用 dfs 函数，从头开始生成排列。
         return ans;
     }
 };
+这段代码通过递归和回溯的方法生成给定数组的所有排列。dfs 函数递归地构建每个排列路径，
+使用 on_path 数组来跟踪哪些元素已经在当前路径中，确保每个排列中的元素都是独一无二的。
+回溯的过程通过在递归调用后恢复状态，以尝试不同的排列路径。
