@@ -1,7 +1,7 @@
 class Solution {
     string MAPPING[10] = {"", "", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
-    vector<string> ans;
-    string path;
+    vector<string> ans;  一个字符串向量，用于存储最终结果（所有可能的字母组合）。
+    string path;          一个字符串，用于存储算法进行过程中当前的字母组合。
 
     void dfs(const string& digits, int i, int n) {
         if (i == n) {
@@ -24,3 +24,5 @@ public:
         return ans;
     }
 };
+如果 i 达到 n，说明已经生成了一个完整的字母组合，存储在 path 中，于是将其添加到 ans 中。
+否则，对于 digits[i] 对应的每个字符，将该字符放入 path[i] 中，并递归调用 dfs 函数处理下一个字符。
