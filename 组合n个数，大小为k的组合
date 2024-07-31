@@ -3,26 +3,33 @@ public:
     vector<int> path;
     vector<vector<int>> ans;
     int k;
-    void dfs(int n)
+    void dfs(int n)   //当前递归可选择的最大数字
     {
-        int d=k-path.size();
+        int d=k-path.size();           计算当前还需要选择的元素个数 d。如果 d 为 0，表示当前路径已经形成一个完整的组合，将其添加到 ans 中。
         if(d==0)
         {
-            ans.emplace_back(path);  //函数emplace_back 类似于push_back;
+            ans.emplace_back(path);     //函数emplace_back 类似于push_back;
             return;
         }
-        for(int j=n;j>=d;j--)
+        for(int j=n;j>=d;j--)         遍历从 n 到 d 之间的所有数字。这里选择从大到小遍历，可以避免重复的组合。
         {
-            path.push_back(j);
+            path.push_back(j);       这三行代码是回溯算法的核心部分，它们分别表示选择一个元素、递归处理剩下的元素、以及撤销选择（回溯）的过程。
             dfs(j-1);
-            path.pop_back();
+            path.pop_back();            撤销前面做出的选择，将最后添加的元素从 path 中移除。这一步表示回溯，即撤销之前的选择，以便尝试其他可能的组合。
         }
     }
     vector<vector<int>> combine(int n, int k) {
-     path.clear(); // 确保路径为空
-        ans.clear();  // 确保结果集为空              确保每次调用 combine 时，这两个容器都是空的，以免受到之前调用的影响。现实中会反复调用。
+     path.clear();          // 确保路径为空
+        ans.clear();         // 确保结果集为空              确保每次调用 combine 时，这两个容器都是空的，以免受到之前调用的影响。现实中会反复调用。
         path.resize(k);
         dfs(n);
         return ans;
     }
 };/////////////////////超出时间限制？？         把path.resize(k);改为this->k=k;  你并不需要提前调整 path 的大小，因为你是在递归过程中动态地增加和减少元素。
+这段代码利用回溯法（Backtracking）生成所有可能的组合。通过递归的方式，在每个位置选择一个数，并尝试所有可能的数，形成所有组合。
+当路径长度达到目标长度 k 时，保存结果并回溯。这种方法能够保证不漏掉任何一种组合，同时也能避免重复。
+
+从大到小的遍历确保每个组合按照一定的顺序生成，即较大的数字总是在较小的数字之前。
+这种顺序性（如递减序列）是组合生成的一个重要性质，避免了不同顺序的相同内容被认为是不同组合的问题，从而消除了重复。
+
+关于j>=d，如果当前剩余可选择的数字数量不足以达到目标长度，就不需要继续尝试，因为即使继续选择也不能满足组合的要求。
