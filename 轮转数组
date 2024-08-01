@@ -16,7 +16,7 @@ void reverse(int a,int b,vector<int>& nums)//说明可以写函数
     void rotate(vector<int>& nums, int k) {
         int n=nums.size();
          if (k == 0) return;
-         k = k % n;//////// /////如果k大于数组大小，取余数
+         k = k % n;//////// /////如果k大于数组大小，取余数，此处为对形参的处理，无论形参是多大都可以轮转
         reverse(0,n-1,nums);
         reverse(0,k-1,nums);
         reverse(k,n-1,nums);
