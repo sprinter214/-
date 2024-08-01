@@ -1,0 +1,38 @@
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        //投票
+        int n=nums.size();
+        int count=0;
+        int candidate=-1;
+        for(int i=0;i<n;i++)
+        {
+            if(nums[i]==candidate)
+            {
+                count++;
+            }
+            else
+            {
+                count--;
+                if(count<0)
+                {
+                    candidate=nums[i];此处的if不仅用于初始化，还能
+                    count=1;
+                }
+            }
+        }
+        return candidate;
+    }
+};
+这段代码的核心思路是使用Boyer-Moore 投票算法找到数组中的多数元素，即出现次数超过数组长度一半的元素。主要步骤包括：
+
+初始化候选者和计数器：设置一个候选者candidate和一个计数器count，初始时candidate未定，count为0。
+
+遍历数组：对于每个元素：
+
+如果计数器count为0，更新候选者为当前元素，并将count设置为1。
+如果当前元素与候选者相同，count增加。
+如果当前元素与候选者不同，count减少。
+确定结果：遍历结束时，candidate即为多数元素。
+
+该算法在O(n)时间复杂度和O(1)空间复杂度内完成，利用了多数元素出现次数超过半数的性质。
