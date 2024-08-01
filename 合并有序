@@ -38,7 +38,7 @@ public:
     void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
 int i=0,j=0;
 vector<int> nums3(m+n);
-int cur=0;
+int cur=0;                     //m，nums1数组长度；n 数组nums2长度
 while(i<m||j<n)          //确保在任何情况下都不会访问超出数组边界的元素。具体来说，我们需要确保在 i == m 或 j == n 的情况下，不会再访问 nums1[i] 或 nums2[j]
 {
     //一轮塞入一个，不断在while内直到把素组塞满
@@ -65,3 +65,6 @@ for(int i=0;i<m+n;i++)
 }
 }
     };
+核心思路：核心思路是双指针归并排序
+依次比较两个指针指向的元素，将较小的元素添加到一个新的数组中，并移动相应的指针。
+处理剩余元素：当一个数组的所有元素都被处理完后，将另一个数组中剩余的元素依次添加到新数组中。
