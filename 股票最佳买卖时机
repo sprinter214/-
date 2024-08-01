@@ -1,3 +1,4 @@
+能用上这个算法，归根结底是他能穿越时空，提前直到明天股票的价格哈哈哈
 int maxProfit(vector<int>& prices) {
         int n=prices.size();
         if(n<=1)
@@ -20,26 +21,29 @@ int maxProfit(vector<int>& prices) {
 int maxProfit(vector<int>& prices) {  /////////////////////运用c++自带的比较函数，一个循环解决
         int n=prices.size();
         int inf=1e9;
-    int minprice=inf,maxProfit=0;
+    int minprice=inf,maxProfit=0;          初始或不盈利时maxProfit仍为0，因为没有盈利。
     for(int i=0;i<n;i++)
     {
         maxProfit=max(maxProfit,prices[i]-minprice);
         minprice=min(minprice,prices[i]);
     }
     return maxProfit;
-    }
+    }                     这段代码实现了计算股票交易中的最大利润的问题，假设只能进行一次买卖。其核心思路是遍历数组，跟踪最低价格和最大利润，具体步骤如下：
+
+
+
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 最佳股票变种，可以随时售卖股票，不限一只股，但最多手头只能拥有一只
 int maxProfit(vector<int>& prices) { ///////////////动态规划法
         int n=prices.size();
         int dp[n][2];      ////创建数组
-        dp[0][0]=0;
-        dp[0][1]=-prices[0];
-        for(int i=1;i<n;i++)
+        dp[0][0]=0;                  //dp[i][0]: 表示在第i天结束时，未持有股票的最大利润。
+        dp[0][1]=-prices[0];         //dp[i][1]: 表示在第i天结束时，持有股票的最大利润。 在第0天买入股票，所以利润是负的股票价格。
+        for(int i=1;i<n;i++)         
         {
             dp[i][0]=max(dp[i-1][0],dp[i-1][1]+prices[i]);    ///截至到当天交易后未持股的最大收益，转移方程为max（截至到前一天未持股的最大收益或前一天持股，但今天兜售后最大收益），取最大值        
-            dp[i][1]=max(dp[i-1][1],dp[i-1][0]-prices[i]);     下方同理
+            dp[i][1]=max(dp[i-1][1],dp[i-1][0]-prices[i]);     下方同理  
         }
         return dp[n-1][0];
 ////////////////////////////////////由于只跟前一天有关，可以把空间优化使空间复杂度降至O（1）；无需使用dp[n][2]创建数组；
@@ -50,17 +54,31 @@ int maxProfit(vector<int>& prices) { ///////////////动态规划法
         for(int i=1;i<n;i++)
         {
             dp0=max(dp0,dp1+prices[i]);
-            dp1=max(dp1,dp0-prices[i]);
+            dp1=max(dp1,dp0-prices[i]);  纵横交错
         }
         return dp0;
     }
-//////////////////////////////////////////贪心算法，预知明天赚了就买，亏了不买
+总结：通过将每一天的情况分解成两种状态，
+时刻的可能性和选择。具体来说：
+
+不持有股票的状态（dp[i][0]）：
+
+可能是前一天已经不持有股票，并且今天继续不持有。
+或者是前一天持有股票并且今天卖出了股票，转换为不持有状态。
+持有股票的状态（dp[i][1]）：
+
+可能是前一天已经持有股票，并且今天继续持有。
+或者是前一天不持有股票，并且今天买入股票，转换为持有状态。
+通过这两个状态的转移，我们可以轻松地记录并计算出每一天最优的选择。
+
+//////////////////////////////////////////贪心算法，预知明天赚了就买，亏了不买。它允许在多个时间点买卖股票
+                                    ////////即在价格上涨的每一天都进行买卖操作，以累积所有的利润。
 int maxProfit(vector<int>& prices) {
         int n=prices.size();
         if(n<=1)
         return 0;
         int maxprofit=0;
-        for(int i=0;i<n-1;i++)
+        for(int i=0;i<n-1;i++)   从第一天遍历到（索引0）到倒数第二天（索引n-2） [7, 1, 5, 3, 6, 4]：即6这个位置
         {
             int temp=prices[i+1]-prices[i];
             if(temp>0)
