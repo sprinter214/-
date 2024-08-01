@@ -12,3 +12,11 @@ int removeElement(vector<int>& nums, int val) {
     return left;
     }
 //利用双指针，left为需要保留数的下标，而right为遍历的数，若数组的值等于val，则left不变，right往右移，若不相等则 nums[left]=nums[rigth];，left和right同时往右移
+核心思路：通过使用双指针法就地删除数组中的指定元素
+初始化指针：定义两个指针left和right，分别用于指向新的数组位置和遍历原数组。left从起始位置开始，right用于遍历整个数组。
+
+遍历数组：遍历数组中的每个元素，如果当前元素nums[right]不等于要删除的值val，则将该元素复制到nums[left]位置，并将left指针向右移动一位。
+
+返回结果：遍历结束后，left指针的值就是新数组的长度，即删除指定元素后剩余的元素个数。
+
+这种方法将不需要的元素覆盖掉，从而实现就地修改数组，避免了额外的空间开销。最终返回的left值即为新数组的长度。
