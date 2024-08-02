@@ -16,7 +16,7 @@ bool isPalindrome(string s) {
             if(tolower(s[left])!=tolower(s[right]))    tolower 是一个标准的 C++ 函数，用于将给定字符转换为小写形式。
             return false;
             }
-            left++;
+            left++; 左指针 left 向右移动一位，即 left = left + 1。这样可以继续比较字符串的下一个字符。
             right--;
         }
         return true;
