@@ -1,0 +1,30 @@
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& numbers, int target) {
+        int n=numbers.size();
+        int i=0,j=n-1;
+            while(i<j)
+            {
+                int sum=numbers[i]+numbers[j];
+                if(sum==target)
+                 return {i+1,j+1}; //此处返回第几个数，所以需要加一
+                else if(sum>target)
+                {
+                    j--;
+                }
+                else
+                   { 
+                    i++;
+                    }
+            }
+            return {};
+    }
+};
+初始化两个指针 i 和 j，分别指向数组 numbers 的起始位置和末尾位置。
+使用一个 while 循环，在 i 小于 j 的情况下继续执行。
+在每次循环中，计算 numbers[i] 和 numbers[j] 的和 sum。
+如果 sum 等于目标值 target，则返回当前两个指针的位置（加1，以满足题目要求的1-based索引）。
+如果 sum 大于目标值 target，则将右指针 j 向左移动一位，以减小 sum。
+如果 sum 小于目标值 target，则将左指针 i 向右移动一位，以增大 sum。
+如果没有找到满足条件的两个元素，返回空数组 {}。
+简而言之，这段代码通过双指针法，在一个有序数组中寻找两个数，使它们的和等于目标值 target。这种方法有效地利用了数组的有序性，将时间复杂度控制在 O(n) 内。
