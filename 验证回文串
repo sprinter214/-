@@ -6,13 +6,14 @@ bool isPalindrome(string s) {
         int right=n-1;
         while(left<right)
         {
-            while(left<right&&!isalnum(s[left]))
+            while(left<right&&!isalnum(s[left]))   这段代码的作用是在进行回文检查时跳过非字母和非数字字符。具体来说，
+                                                    它会不断移动左指针 left，直到找到一个字母或数字字符为止。以下是这段代码的详细解释：
             left++;
-            while(left<right&&!isalnum(s[right]))          isalnum，判断是否为字母或数字
+            while(left<right&&!isalnum(s[right]))          isalnum函数，判断是否为字母或数字
             right--;
             if(left<right)                  //比较前仍需要加left<right 的判断
             {
-            if(tolower(s[left])!=tolower(s[right]))    //把大写字母转化为小写
+            if(tolower(s[left])!=tolower(s[right]))    tolower 是一个标准的 C++ 函数，用于将给定字符转换为小写形式。
             return false;
             }
             left++;
@@ -20,3 +21,10 @@ bool isPalindrome(string s) {
         }
         return true;
     }
+这段代码的核心思路是检查给定字符串是否为回文（即从前往后读和从后往前读都是一样的）。具体步骤如下：
+
+定义左右两个指针，分别从字符串的开始和结束处向中间移动。
+在左右指针相遇之前，跳过非字母和非数字字符。
+对比左右指针指向的字符（忽略大小写），如果不相同，则返回 false。
+如果所有字符都匹配，则返回 true。
+简而言之，这段代码通过双指针法，忽略字符串中的非字母和非数字字符，并进行字符大小写不敏感的比较，来判断字符串是否为回文。
