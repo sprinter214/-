@@ -16,3 +16,18 @@ bool canConstruct(string ransomNote, string magazine) {
         }
         return true;
     }
+核心思路
+初步检查：
+
+如果 ransomNote 的长度大于 magazine 的长度，则 ransomNote 不可能由 magazine 构造出来，直接返回 false。
+计数 magazine 中字符出现的频率：
+
+使用一个长度为 26 的整数数组 cnt 来记录 magazine 中每个字符出现的次数。
+遍历 magazine 字符串，对于每个字符 c，将其在数组中的对应位置增加计数。
+验证 ransomNote 中字符的可用性：
+
+遍历 ransomNote 字符串，对于每个字符 c，将其在数组中的对应位置减少计数。
+如果在减少计数的过程中，发现某个字符的计数已经小于 0，则说明 ransomNote 中的该字符在 magazine 中不够用，直接返回 false。
+最终结果：
+
+如果 ransomNote 中的所有字符都在 magazine 中找到并且数量足够，则返回 true。
