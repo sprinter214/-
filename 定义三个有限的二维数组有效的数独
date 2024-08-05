@@ -1,0 +1,43 @@
+class Solution {
+public:
+    bool isValidSudoku(vector<vector<char>>& board) {
+int rows[9][9];
+        int columns[9][9];
+        int subboxes[3][3][9];
+        
+        memset(rows,0,sizeof(rows));                     memset 是 C++ 标准库中 <cstring> 头文件提供的一个函数。它用于将指定的值设置到一块内存区域中，通常用于初始化数组或内存块
+        memset(columns,0,sizeof(columns));               #include <cstring> void* memset(void* ptr, int value, size_t num);
+        memset(subboxes,0,sizeof(subboxes));              ptr：指向要填充的内存块的指针。value：要设置的值（以 unsigned char 形式传递）。通常这个值是 0 或 -1。num：要设置的字节数。
+        for (int i = 0; i < 9; i++) {
+            for (int j = 0; j < 9; j++) {
+                char c = board[i][j];
+                if (c != '.') {                    对于每一个元素，如果不是 '.'，则计算该数字的索引 index，该索引由字符数字转换为对应的整数值。
+                    int index = c - '0' - 1;
+                    rows[i][index]++;
+                    columns[j][index]++;
+                    subboxes[i / 3][j / 3][index]++;
+                    if (rows[i][index] > 1 || columns[j][index] > 1 || subboxes[i / 3][j / 3][index] > 1) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
+    }
+};
+核心思路
+使用辅助数组：定义三个二维数组 rows、columns 和一个三维数组 subboxes，用于记录每行、每列和每个 3x3 子盒子中数字的出现次数。
+
+初始化辅助数组：使用 memset 将 rows、columns 和 subboxes 初始化为 0。
+
+遍历数独板：
+
+使用嵌套的 for 循环遍历数独板的每一个元素。
+对于每一个元素，如果不是 '.'，则计算该数字的索引 index，该索引由字符数字转换为对应的整数值。
+更新辅助数组：
+
+对于每一个数字，更新对应的 rows、columns 和 subboxes 数组。
+检查如果在同一行、同一列或同一个 3x3 子盒子中，某个数字出现次数超过1次，则数独无效，返回 false。
+返回结果：
+
+如果遍历完所有元素后，没有任何重复，则数独有效，返回 true。
