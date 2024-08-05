@@ -5,22 +5,22 @@ vector<int> spiralOrder(vector<vector<int>>& matrix) {
     int colunm=matrix[0].size(); //容器获取长度的方式
     vector<int> ans;
     int rowbegin=0;             //定义每行每列的起始点
-    int colunmbegin=0;                                 
+    int colunmbegin=0;                                     定义变量：row 和 column 分别表示矩阵的行数和列数，rowbegin 和 columnbegin 分别表示当前处理的起始行和起始列。
     while(true)           //一直循环，但是break需要在内部写
     {
         for(int i=colunmbegin;i<=colunm-1;i++)
         {
             ans.push_back(matrix[rowbegin][i]);  //push_back带有下划线
         }
-        rowbegin++;
-        if(rowbegin>row-1)
+        rowbegin++;                 起始点加加，随后判断起始是否越界；
+        if(rowbegin>row-1)          rowbegin > row - 1 表示当前起始行超过了最后一行的索引，意味着所有行已经处理完毕
         break;                                         //对于不规则的矩阵，最后结束的判断有四种情况，因此每个for都需要有break;
         for(int i=rowbegin;i<=row-1;i++)
         {
             ans.push_back(matrix[i][colunm-1]);
         }
         colunm--;
-        if(colunmbegin>colunm-1)
+        if(colunmbegin>colunm-1)           四个节点判断的均为行或列的起始节点begin
         break;
         for(int i=colunm-1;i>=colunmbegin;i--)
         {
@@ -39,3 +39,25 @@ vector<int> spiralOrder(vector<vector<int>>& matrix) {
     }
     return ans;
  }
+核心思路
+初始化变量：
+
+检查矩阵是否为空或是否有空行。如果是，返回空数组。
+定义变量：row 和 column 分别表示矩阵的行数和列数，rowbegin 和 columnbegin 分别表示当前处理的起始行和起始列。
+定义结果数组：
+
+使用 vector<int> ans 来存储螺旋顺序的结果。
+按层遍历矩阵：
+
+使用 while(true) 循环按层遍历矩阵，直到所有元素都被处理完。
+按顺序遍历四个方向：从左到右，从上到下，从右到左，从下到上。
+遍历每个方向：
+
+从左到右：遍历当前起始行，移动列指针从 columnbegin 到 column-1，将元素添加到结果数组，然后增加 rowbegin。
+从上到下：遍历当前起始列，移动行指针从 rowbegin 到 row-1，将元素添加到结果数组，然后减少 column。
+从右到左：遍历当前末尾行，移动列指针从 column-1 到 columnbegin，将元素添加到结果数组，然后减少 row。
+从下到上：遍历当前末尾列，移动行指针从 row-1 到 rowbegin，将元素添加到结果数组，然后增加 columnbegin。
+检查边界条件：
+在每个方向遍历后检查是否已经越界。如果越界则结束循环。
+返回结果：
+返回存储螺旋顺序结果的数组 ans。
