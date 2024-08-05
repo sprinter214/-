@@ -60,8 +60,9 @@ int lengthOfLongestSubstring(string s) {
             {
                 if(i!=0)
                 {
-                    occ.erase(s[i-1]);
-                }
+                    occ.erase(s[i-1]);erase 是 C++ 标准库中容器类（如 unordered_set、vector、list 等）自带的成员函数。它用于删除容器中的元素
+                }                     count 是 C++ 标准库中 unordered_set 提供的成员函数。count 用于检查集合中是否存在特定元素。对于 unordered_set 而言，count 函数的返回值只能是 0 或 1
+                                      insert 是 C++ 标准库中容器类（如 unordered_set, set, vector, list, map 等）提供的成员函数。它用于向容器中添加元素。具体行为和用法根据容器的类型略有不同。
                 while(rk+1<n&&occ.count(s[rk+1]))      /////关键点rk + 1 < n 确保不会越界。!occ.count(s[rk + 1]) 确保即将加入的字符在当前窗口内没有重复。 occ.insert(s[++rk]) 将字符插入集合并移动右指针。
                 {
                     occ.insert(s[rk+1]);
@@ -70,3 +71,22 @@ int lengthOfLongestSubstring(string s) {
                 ans=max(ans,rk-i+1);
             }
             return ans;
+核心思路：
+使用滑动窗口：通过两个指针 i 和 rk（分别表示窗口的左边界和右边界）来表示当前不包含重复字符的子串。
+
+维护一个集合 occ：使用 unordered_set 来存储当前窗口内的字符，用于快速检查字符是否重复。
+
+移动右边界扩展窗口：
+
+从左边界开始，逐步向右移动右边界指针 rk，将字符加入集合 occ。
+每次右边界移动时，检查字符是否已存在于集合中。如果不存在，将字符加入集合并继续移动右边界。
+调整左边界缩小窗口：
+
+如果遇到重复字符，开始移动左边界 i，直到窗口内不再有重复字符。
+每次移动左边界时，从集合 occ 中移除左边界的字符，以确保窗口内字符的唯一性。
+更新结果：
+
+在每次右边界移动过程中，记录当前窗口的长度，并与已记录的最长长度进行比较，保留最大值。
+返回结果：最终，返回最长不含重复字符的子串的长度。
+
+当我们检查下一个字符是否可以加入窗口时，我们实际是在检查 s[rk + 1]，而不是当前的 s[rk，这也是为什么在代码中使用 rk + 1 的原因。
