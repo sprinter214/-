@@ -1,0 +1,40 @@
+class Solution {
+public:
+    bool wordPattern(string pattern, string s) {
+        unordered_map<char,string>p2s;     由于使用的是一对多，所以map<>内对应的是char和string
+        unordered_map<string,char>s2p;
+        int n=s.size();   // 字符串 s 的长度
+        int m=pattern.size();  // 模式 pattern 的长度
+        int wordstart=0;  单词起点索引
+        int wordend=0; // 单词终点索引
+        char ch;
+        string word;
+        for(int i=0;i<m;i++)  
+        {
+            if(wordstart >= n)return false;   // 如果单词起点索引已经超过了字符串 s 的长度，说明字符串 s 中的单词不足以匹配模式 pattern 的字符数，返回 false
+            while(wordend<n&&s[wordend]!=' ')
+            wordend++;
+            word = s.substr(wordstart, wordend - wordstart);  substr 是 C++ 标准库 std::string 类的一个成员函数。它用于从字符串中提取一个子字符串。
+            ch = pattern[i];                                      第一个参数为起始位置指针，第二个参数为长度；
+            if((p2s.count(ch)&&p2s[ch]!=word)||(s2p.count(word)&&s2p[word]!=ch))
+            {
+                return false;
+            }
+            p2s[ch]=word;
+            s2p[word]=ch;
+            wordstart=wordend+1;
+            wordend=wordstart;
+        }
+        return wordstart==n+1;
+    }
+};
+思路总结：
+初始化两个哈希表：p2s（用于存储模式字符到字符串片段的映射）和s2p（用于存储字符串片段到模式字符的映射）。
+遍历模式字符串pattern的每个字符，同时在字符串s中找到相应的单词片段。
+对于每个模式字符和对应的字符串片段：
+检查当前模式字符是否已经有映射，且映射的字符串片段是否与当前片段相同。
+检查当前字符串片段是否已经有映射，且映射的模式字符是否与当前字符相同。
+如果以上任一条件不满足，返回false。
+否则，更新两个哈希表，建立新的映射。
+最后，检查是否已经处理完字符串s中的所有单词片段。如果是，则返回true，否则返回false。
+总结来说，该算法通过双向映射确保了模式字符和字符串片段之间的一一对应关系，从而验证了模式是否与字符串匹配。
