@@ -1,7 +1,7 @@
 class Solution {
 public:
     bool isSymmetric(TreeNode* root) {   //solution 内是否可以编写函数          在public的同一栏声明函数构造函数即可
-       return isSymmetrical(root,root);
+       return isSymmetrical(root,root);          调用辅助函数 isSymmetrical，传入两个相同的根节点 root。
     }
     bool isSymmetrical(TreeNode* root1,TreeNode* root2)              //对一棵树进行不同的顺序遍历比对，可以赋值根节点使用两棵树
     {
@@ -21,3 +21,12 @@ public:
         }
     }
 };
+核心思路：
+初始调用：调用辅助函数 isSymmetrical，传入两个相同的根节点 root。
+递归判断：
+终止条件：如果两个节点 root1 和 root2 都为 nullptr，返回 true，表示对称。
+非对称条件：如果只有一个节点为 nullptr 或者两个节点的值不相等，返回 false，表示不对称。
+递归比较子树：
+递归调用 isSymmetrical 比较 root1 的左子树与 root2 的右子树。
+递归调用 isSymmetrical 比较 root1 的右子树与 root2 的左子树。
+返回结果：只有在两次递归调用都返回 true 时，当前子树才是对称的，最终返回整个树的对称性结果。
