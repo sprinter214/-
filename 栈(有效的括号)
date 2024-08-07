@@ -2,9 +2,9 @@ bool isValid(string s) {
         int n=s.size();
         if(n%2==1)           //长度若为奇数返回false
         return false;
-        unordered_map<char,char> hash={{')','('},{'}','{'},{']','['}}; //给map赋值使用大括号分开每一对
+        unordered_map<char,char> hash={{')','('},{'}','{'},{']','['}}; //给map赋值使用大括号分开每一对    使用map精简匹配过程
         stack<char> stk;     //创建stack的格式
-        for(char ch:s)
+        for(char ch:s)    
         {
             if(hash.count(ch)) //判断是否为右括号，count函数计算实值出现的次数，在map中只有0或1
 0            {
@@ -24,3 +24,11 @@ bool isValid(string s) {
         }
         return stk.empty(); //若最后栈为空，表明所有左括号都被匹配，返回true;
     }
+核心思路：                    
+如果字符串长度是奇数，直接返回 false，因为有效的括号字符串长度一定是偶数。
+创建一个哈希表 hash，将每个右括号与对应的左括号配对。
+使用一个栈 stk 来保存左括号。
+遍历字符串中的每个字符：
+如果字符是右括号，检查栈是否为空或栈顶元素是否与该右括号的配对左括号不匹配。如果是，返回 false；否则，弹出栈顶元素。
+如果字符是左括号，将其压入栈中。
+遍历结束后，检查栈是否为空。如果为空，说明所有括号都正确配对，返回 true；否则，返回 false。
