@@ -8,3 +8,7 @@ public:
         return nLeft>nRight? (nLeft+1):(nRight+1);
     }
 };
+核心思路：
+递归终止条件：如果当前节点 root 为 nullptr，则返回深度为 0，表示当前节点为空树。
+递归计算子树深度：递归调用 maxDepth 函数分别计算左子树 root->left 和右子树 root->right 的深度，分别记为 nLeft 和 nRight。
+返回结果：当前树的最大深度为左右子树最大深度中的较大值加 1（即加上当前节点的深度）。
