@@ -2,7 +2,7 @@ class Solution {
 public:
     unordered_map<int,int> index;                //简历哈希表直接找出中序遍历根节点的值
     TreeNode* rebuildTree(const vector<int>& preorder,const vector<int>& inorder,int preleft,int preright,int inoleft,int inoright)
-    {
+    {                                        两个数组，四个子树范围的边界
         if(preleft>preright)
         return nullptr;
         int pre_root=preleft;
@@ -17,7 +17,7 @@ public:
         int n=inorder.size();
         for(int i=0;i<n;i++)
         {
-            index[inorder[i]]=i;
+            index[inorder[i]]=i;    //构建哈希表，将中序遍历数组中的每个元素的值与其索引位置进行映射
         }
         return rebuildTree(preorder,inorder,0,n-1,0,n-1);
     }
@@ -28,7 +28,7 @@ class Solution {
 public:
     unordered_map<int,int> index;
     TreeNode* mybulidTree(const vector<int>& inorder,vector<int>& postorder,int inoleft,int inoright,int postleft,int postright)
-    {
+    {                                         两个数组，四个子树范围的边界
         if(postleft>postright)
         return nullptr;
         int postroot=postright;
@@ -48,3 +48,13 @@ public:
         return mybulidTree(inorder,postorder,0,n-1,0,n-1);
     }
 };
+核心思路：
+这个条件 if(preleft > preright) 用于判断当前递归构建子树的范围是否有效。具体来说，它检查前序遍历数组中当前处理的子树是否还有节点可以构建。
+如果没有节点可用，那么递归应该终止，并返回 nullptr，表示这部分树不存在。
+
+利用前序遍历的特性确定根节点：前序遍历的第一个节点即为当前子树的根节点。
+通过中序遍历确定左右子树的范围：在中序遍历中，根节点的左侧部分为左子树，右侧部分为右子树。利用这一特性，可以划分出左右子树的范围。
+递归构建左右子树：递归地构建左子树和右子树。通过递归调用，逐步构造整棵树。
+使用哈希表加速查找：为了快速找到中序遍历中根节点的位置，使用哈希表（unordered_map）将中序遍历的值与其索引进行映射，大大提高查找速度。
+
+简而言之，算法的核心思想是利用前序遍历确定根节点，再通过中序遍历划分左右子树，并递归地构建整棵二叉树。
