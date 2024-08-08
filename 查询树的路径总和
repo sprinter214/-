@@ -4,7 +4,7 @@ public:
         if(root==nullptr)                                //设想根节点和第一个左右子节点为空会怎么样，递归到子叶节点时又会是什么情况。
         return false;
         if(root->left==nullptr&&root->right==nullptr)
-        return root->val==targetSum;
+        return root->val==targetSum;   这是一个布尔表达式，用于检查当前叶子节点的值是否等于剩余的目标和（targetSum）。
 
         return hasPathSum(root->left,targetSum-root->val)||hasPathSum(root->right,targetSum-root->val);
     }
