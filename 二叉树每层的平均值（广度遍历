@@ -1,0 +1,49 @@
+class Solution {
+public:
+    vector<double> averageOfLevels(TreeNode* root) {
+        vector<double> ans;
+        queue<TreeNode*>q;
+        q.push(root);
+        while(!q.empty())  //遍历每一层
+        {
+            double sum=0;
+            int length=q.size();
+            for(int i=0;i<length;i++) //遍历每一层的节点
+            {
+                TreeNode*node=q.front();
+                q.pop();
+                sum+=node->val;
+                if(node->left!=nullptr)  //问题所在，你应该检查当前节点 node 的子节点，而不是填root
+                {
+                    q.push(node->left);          
+                }
+                if(node->right!=nullptr)
+                {
+                    q.push(node->right);
+                }
+            }
+             double average=sum/length;
+             ans.push_back(average);
+        }
+        return ans;
+    }
+};
+核心步骤：
+初始化：
+使用一个队列（queue<TreeNode*>）来进行层序遍历。将根节点入队。
+层序遍历：
+
+循环遍历每一层：只要队列不为空，说明还有节点待处理。
+计算当前层的节点数量：length = q.size()。
+遍历当前层的所有节点：
+逐个弹出队列中的节点，并累加它们的值到 sum。
+将每个节点的子节点（左子节点和右子节点）加入队列中，为下一层的遍历做准备。
+计算和存储每层的平均值：
+
+计算当前层节点值的平均值：average = sum / length。
+将计算出的平均值添加到结果列表 ans 中。
+返回结果：
+
+最终返回存储了每层节点平均值的列表 ans。
+代码核心思想总结：
+使用层序遍历计算二叉树每一层的节点值的平均值，并将这些平均值存储在列表中。这样可以得到从树的顶层到底层的每一层的节点平均值。
