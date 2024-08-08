@@ -8,4 +8,21 @@ public:
 
         return hasPathSum(root->left,targetSum-root->val)||hasPathSum(root->right,targetSum-root->val);
     }
-};
+};   
+核心步骤：
+递归终止条件：
+
+如果当前节点为空（root == nullptr），则返回 false，表示没有路径。
+如果当前节点是叶子节点（即没有左右子节点），则检查当前节点的值是否等于剩余的目标和（targetSum）。如果相等，返回 true，表示找到了一条符合条件的路径；否则返回 false。
+递归检查左右子树：
+
+对左子树和右子树递归调用 hasPathSum，并将 targetSum 减去当前节点的值，继续检查剩余的目标和是否可以通过左或右子树的路径实现。
+如果左子树或右子树中有一条路径满足条件（即递归调用返回 true），则最终返回 true。
+代码核心思想总结：
+通过递归检查二叉树的每一条从根节点到叶子节点的路径，判断是否存在路径的节点值之和等于目标和。如果存在这样的路径，返回 true；否则返回 false。
+
+
+
+
+
+
