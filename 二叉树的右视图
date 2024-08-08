@@ -1,0 +1,36 @@
+class Solution {
+public:
+    vector<int> ans;
+
+    void dfs(TreeNode* node, int depth) {
+        if (node == nullptr) return;
+        
+        // 如果是当前深度第一次访问，将节点值加入结果中
+        if (depth == ans.size()) {
+            ans.push_back(node->val);
+        }
+
+        // 先递归访问右子节点，再访问左子节点
+        dfs(node->right, depth + 1);
+        dfs(node->left, depth + 1);
+    }
+
+    vector<int> rightSideView(TreeNode* root) {
+        ans.clear();
+        dfs(root, 0);
+        return ans;
+    }
+};
+核心步骤：
+深度优先搜索（DFS）：
+递归遍历树的每个节点，优先访问右子树（dfs(node->right, depth + 1)），再访问左子树（dfs(node->left, depth + 1)）。
+在遍历的过程中，使用 depth 参数记录当前节点的深度。
+记录右侧视图节点：
+
+对于每个深度 depth，当 depth 等于结果列表 ans 的大小时，说明这是该深度第一次被访问，且优先访问的是右子树，因此将该节点的值添加到 ans 中。
+由于优先访问右子树，ans 列表记录的就是从右侧看见的节点值。
+构建结果：
+
+最终，ans 列表中包含了从树的右侧视角看到的节点值，按照从上到下的顺序排列。
+代码核心思想总结：
+通过深度优先搜索，从右到左遍历二叉树，并在每个深度的第一次访问时记录节点值。最终得到从二叉树的右侧看到的所有节点值。
