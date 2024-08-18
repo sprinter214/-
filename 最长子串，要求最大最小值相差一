@@ -1,0 +1,32 @@
+int Longestsq(vector<int>nums)
+{
+	int n = nums.size();
+	if (n <= 1)
+	return n;
+	vector<int>dp(n, 1);
+	for (int i=1;i<n;i++)
+	{
+		for (int j=0;j<i;j++)
+		{
+			if (abs(nums[j] -nums[i])<=1)
+			{
+				dp[i] = max(dp[i],dp[j]+1);
+			}
+		}
+	}
+	return *max_element(dp.begin(),dp.end());
+}
+int main()
+{
+	int a,ans;
+	vector<int> nums;
+	while (cin>>a)
+	{
+		nums.push_back(a);
+		if (getchar() == '\n')
+			break;
+	}
+	ans=Longestsq(nums);
+	cout << ans << endl;
+	return 0;
+}    与最长递增子序列相同，在内嵌循环中改变if()条件语句即可
