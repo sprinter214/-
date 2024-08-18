@@ -1,0 +1,42 @@
+
+# include<iostream>
+using namespace std;
+# include <string>
+#include <vector>
+#include <algorithm>
+//反转英文字母的每个单词
+void Reverse(vector<char>& str)  //需要加引用，否则传递的是参数的一个副本
+{
+	int n = str.size();
+	if (n <= 0)
+		return;
+	int start = 0,end=0;
+	reverse(str.begin(),str.end());
+	while(end<=n)
+	{
+		if (end==n||str[end]==' ')//先后顺序亦有差别
+		{
+			reverse(str.begin() + start, str.begin()+end);
+			start = end + 1;
+		}
+		end++;
+	}
+}
+int main()
+{
+	char a;
+	vector<char>ans;
+	while (cin.get(a))  //cin >> a: 跳过空白字符，适合读取非空白字符（如单词、数字
+	{                   //cin.get(a): 不跳过空白字符，逐字符读取，适合精确控制输入，尤其是处理空白字符时。
+		if (a == '\n')
+			break;
+		ans.push_back(a);
+	}
+	Reverse(ans);
+	for (char c:ans)
+	{
+		cout << c;
+	}
+	cout << endl;
+	return 0;
+}
