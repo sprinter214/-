@@ -1,0 +1,55 @@
+class Solution {
+public:
+    int minPathSum(vector<vector<int>>& grid) {    //二维数组法 dp[i][j]存储到达该位置的最小路径和
+        int m=grid.size();
+        int n=grid[0].size();//任取二维中的一个元素nums[0]
+        vector<vector<int>>dp(m,vector<int>(n,0));  二维数组的初始化
+        dp[0][0]=grid[0][0]; 
+        for(int i=1;i<n;i++)
+        {
+            dp[0][i]=dp[0][i-1]+grid[0][i];
+        }
+        for(int j=1;j<m;j++)
+        {
+            dp[j][0]=dp[j-1][0]+grid[j][0];
+        }
+        for(int i=1;i<m;i++)
+        {
+            for(int j=1;j<n;j++)
+            {
+                dp[i][j]=min(dp[i-1][j],dp[i][j-1])+grid[i][j];     
+            }
+        }
+        return dp[m-1][n-1];
+    }
+};
+/////////////////////////////////优化成滚动数组
+class Solution {
+public:
+    int minPathSum(vector<vector<int>>& grid) {
+        int m=grid.size();
+        int n=grid[0].size();//任取二维中的一个元素nums[0]
+        vector<int>dp(n,0);
+        dp[0]=grid[0][0];
+        for(int i=1;i<n;i++)
+        {
+            dp[i]=dp[i-1]+grid[0][i];
+        }
+        for(int i=1;i<m;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                if(j==0)
+                {
+                    dp[j]=dp[j]+grid[i][j];
+                }
+                else
+                {
+                dp[j]=min(dp[j-1],dp[j])+grid[i][j];
+                }
+            }
+        }
+        return dp[n-1];
+    }
+};
+核心思路是通过动态规划的方法，用一维数组 dp 来记录当前行每个位置的最小路径和，从而优化空间复杂度。
