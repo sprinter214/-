@@ -4,7 +4,7 @@ public:
         int n1=t.size();
         int n2=s.size();
         int i=0;
-        int j=0;
+        int j=0;         此处J为子串的下标
         while(j<n2&&i<n1)直到任意一个字符串遍历完。
         {
             if(s[j]==t[i])
