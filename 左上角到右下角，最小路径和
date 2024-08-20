@@ -31,13 +31,13 @@ public:
         int n=grid[0].size();//任取二维中的一个元素nums[0]
         vector<int>dp(n,0);
         dp[0]=grid[0][0];
-        for(int i=1;i<n;i++)
+        for(int i=1;i<n;i++)    先处理第一行
         {
             dp[i]=dp[i-1]+grid[0][i];
         }
-        for(int i=1;i<m;i++)
+        for(int i=1;i<m;i++)     从第二行开始，处理剩下行
         {
-            for(int j=0;j<n;j++)
+            for(int j=0;j<n;j++)    剩下行过程中，给当前行的每一列dp[j]做迭代
             {
                 if(j==0)
                 {
@@ -49,7 +49,30 @@ public:
                 }
             }
         }
-        return dp[n-1];
+        return dp[n-1];      返回最后一行的最后一个位置，代表达到该位置的最小路径和
     }
 };
 核心思路是通过动态规划的方法，用一维数组 dp 来记录当前行每个位置的最小路径和，从而优化空间复杂度。
+main函数输入输出
+int main()
+{
+    int m,n,a;
+    vector<vector<int>>grid;    
+    while (true)
+    {
+        if (!(cin >> m >> n)) break;
+        grid.clear();
+        for (int i=0;i<m;i++)
+        {
+            vector<int> rows;    //创建行
+            for (int j=0;j<n;j++)
+            {
+                cin >> a;
+                rows.push_back(a);  //每行输入每列
+            }
+            grid.push_back(rows);  //往数组中输入行
+        }
+        cout << minPathSum(grid) << endl;   //输出应保持在while循环内
+    }
+	return 0;
+}
