@@ -1,0 +1,50 @@
+int longestCommonSubsequence(string text1, string text2) {
+    int m = text1.size();
+    int n = text2.size();
+    vector<vector<int>>dp(m + 1, vector<int>(n + 1));    
+    for (int i = 1; i <= m; i++)      dp[i][j] 存储的是 text1 的前 i 个字符和 text2 的前 j 个字符的最长公共子序列的长度。
+    {
+        char c1 = text1.at(i - 1);  c1 和 c2 分别是 text1 的第 i-1 个字符和 text2 的第 j-1 个字符
+        for (int j = 1; j <= n; j++)
+        {
+            char c2 = text2.at(j - 1);
+            if (c1 == c2)
+            {
+                dp[i][j] = dp[i - 1][j - 1] + 1;
+            }
+            else
+            {
+                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
+            }
+        }
+    }
+    return dp[m][n];
+}
+int main()
+{
+    char a;
+    string s;
+    while (getline(cin,s)) //帅哥请问你如何输入字符串s捏,两串都是这也输入哦，自己用空格分开形参两串
+    {
+        string s1 = "";
+        string s2 = "";
+        int j=0;
+        for (int i=0;s[i]!=' ';i++)
+        {
+            s1 = s1 + s[i];
+            j++;
+        }
+        for (;j<s.size();j++)
+        {
+            s2 = s2 + s[j];
+        }
+        cout << longestCommonSubsequence(s1, s2) << endl;
+    }
+    return 0;
+}
+核心思路：dp[i][j] 存储的是 text1 的前 i 个字符和 text2 的前 j 个字符的最长公共子序列的长度。
+该表的大小为 (m+1) x (n+1)，因为要包括空串的情况，dp[i][0] 和 dp[0][j] 都初始化为 0。
+如果 c1 == c2：这意味着当前字符可以成为最长公共子序列的一部分，因此 dp[i][j] 的值为 dp[i-1][j-1] + 1。这表示在前一对字符的最长公共子序列长度基础上加 1。
+如果 c1 != c2：则当前字符不能同时出现在最长公共子序列中，因此 dp[i][j] 应取 dp[i-1][j] 和 dp[i][j-1] 中的较大值。
+这个值表示要么忽略 text1 的当前字符，要么忽略 text2 的当前字符。
+最后返回dp[m][n];即 text1 的前 m 个字符和 text2 的前 n 个字符的最长公共子序列的长度。
