@@ -43,3 +43,28 @@
         return s.substr(begin, maxLen);
 核心思路：利用 DP 表格记录每个子串是否为回文，通过更新表格内容来找到最长的回文子串。
 从短子串到长子串，逐步构建回文信息，以此来处理所有可能的回文子串。
+///////////////////////////////////////////////////////////////////////////第二种思路，中心扩展算法
+pair<int, int> expandAroundCenter(const string& s, int left, int right) {      //这个函数用于从中心向两边扩展，找到以当前中心点为基准的最大回文串的左右边界
+        while (left >= 0 && right < s.size() && s[left] == s[right]) {       //当 s[left] == s[right] 时，表示左右对称，可以继续向两边扩展，检查更大的回文串。
+            --left;                                                //分别向左向右扩展
+            ++right;
+        }
+        return {left + 1, right - 1};
+    }
+
+    string longestPalindrome(string s) {
+        int start = 0, end = 0;
+        for (int i = 0; i < s.size(); ++i) {                       //函数遍历字符串的每个字符，以每个字符为中心，寻找最长的回文子串
+            auto [left1, right1] = expandAroundCenter(s, i, i);               //分别比较以基数为扩展和以偶数为扩展的最长字串，令最长的下标left=begin，right=end；
+            auto [left2, right2] = expandAroundCenter(s, i, i + 1);
+            if (right1 - left1 > end - start) {
+                start = left1;
+                end = right1;
+            }
+            if (right2 - left2 > end - start) {
+                start = left2;
+                end = right2;
+            }
+        }
+        return s.substr(start, end - start + 1);
+    }
