@@ -1,0 +1,84 @@
+输入输出：
+6.	输入多组数据，第一个为整数N 代表有多少组，后面每组第一行N代表有多少个数据
+第二行开始输入数据
+int main() {
+    while (true) { // 开始一个无限循环
+        int N;
+        cout << "请输入组数（输入 0 退出程序）：";
+        cin >> N;
+
+        if (N == 0) {
+            break; // 如果输入为 0，退出循环并结束程序
+        }
+
+        vector<vector<int>> allData(N); // 创建一个二维向量来存储所有组的数据
+
+        // 读取数据
+        for (int i = 0; i < N; ++i) {
+            int M;
+            cout << "请输入第 " << i + 1 << " 组的数据个数：";
+            cin >> M; // 读取当前组有多少个数据
+            allData[i].resize(M); // 调整当前组的大小
+
+            cout << "请输入第 " << i + 1 << " 组的数据：";
+            for (int j = 0; j < M; ++j) {
+                cin >> allData[i][j]; // 读取数据并存入二维向量
+            }
+        }
+
+        // 输出数据
+        for (int i = 0; i < N; ++i) {
+            cout << "第 " << i + 1 << " 组: ";
+            for (int j = 0; j < allData[i].size(); ++j) {
+                cout << allData[i][j] << " ";
+            }
+            cout << endl;
+        }
+    }
+
+    cout << "程序已退出。" << endl;
+    return 0;
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////若使用push_back();
+int main() {
+    while (true) { // 开始一个无限循环
+        int N;
+        cout << "请输入组数（输入 0 退出程序）：";
+        cin >> N;
+
+        if (N == 0) {
+            break; // 如果输入为 0，退出循环并结束程序
+        }
+
+        vector<vector<int>> allData; // 创建一个二维向量来存储所有组的数据
+        
+        // 读取数据
+        for (int i = 0; i < N; ++i) {
+            int M;
+            cout << "请输入第 " << i + 1 << " 组的数据个数：";
+            cin >> M; // 读取当前组有多少个数据
+
+            vector<int> groupData; // 创建一个临时的向量来存储当前组的数据
+            groupData.resize(M); // 调整当前组的大小
+
+            cout << "请输入第 " << i + 1 << " 组的数据：";
+            for (int j = 0; j < M; ++j) {
+                cin >> groupData[j]; // 读取数据并存入临时向量
+            }
+
+            allData.push_back(groupData); // 使用 push_back 将当前组的数据添加到 allData 中
+        }
+
+        // 输出数据
+        for (int i = 0; i < N; ++i) {
+            cout << "第 " << i + 1 << " 组: ";
+            for (int j = 0; j < allData[i].size(); ++j) {
+                cout << allData[i][j] << " ";
+            }
+            cout << endl;
+        }
+    }
+
+    cout << "程序已退出。" << endl;
+    return 0;
+}
