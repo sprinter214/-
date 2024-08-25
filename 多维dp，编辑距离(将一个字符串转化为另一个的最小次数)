@@ -1,0 +1,42 @@
+int minDistance(string word1, string word2) {
+        int s=word1.size();
+        int t=word2.size();
+        word1="&"+word1;                      //因为需要考虑空串情况，因此在字符串前随便加一个符号填充长度，长度变为n+1
+        word2="%"+word2;                      //同理填充长度
+        vector<vector<int>> step(s+1,vector<int>(t+1));      step存储的是从当前字符串变到另一个字符串的最小变换次数
+        for(int i=0;i<=s;i++)
+        {
+            for(int j=0;j<=t;j++)                从空串开始遍历
+            {
+                if(i==0&&j==0)                   
+                step[i][j]=0;
+                else if(i==0)
+                {
+                    step[i][j]=j;
+                }
+                else if(j==0)
+                {
+                    step[i][j]=i;
+                }
+                else if(word1[i]==word2[j])
+                step[i][j]=step[i-1][j-1];
+                else                             //若字符不相等，则取插入、删除和替换操作的最小值，并加 1，表示执行了一次操作
+                {
+                    step[i][j]=min(step[i][j-1],min(step[i-1][j],step[i-1][j-1]))+1;   ///min只能接入两个为参数
+                }
+            }
+        }
+        return step[s][t];
+    }
+核心思路：
+初始化：
+计算字符串 word1 和 word2 的长度，并分别在它们的开头添加一个占位符（如 & 和 %），以便处理空串的情况，并使得索引从 1 开始。
+创建一个二维数组 step，其中 step[i][j] 存储将 word1 的前 i 个字符转换为 word2 的前 j 个字符所需的最小操作次数。
+动态规划填表：
+从空串开始（即 i = 0 或 j = 0 的情况），初始化 step 数组的边界值。
+当字符 word1[i] 和 word2[j] 相等时，无需操作，继承 step[i-1][j-1] 的值。
+如果字符不相等，则需要在插入、删除、替换三种操作中选择最小的一个，并加 1 表示执行了这一步操作。
+返回结果：
+最终结果存储在 step[s][t] 中，它表示将 word1 转换为 word2 所需的最小操作次数。
+总结：
+通过动态规划，逐步比较两个字符串的各个子串，计算出最小编辑距离。整个过程的时间复杂度为 O(s * t)，空间复杂度也为 O(s * t)。
