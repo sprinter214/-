@@ -40,3 +40,37 @@ int main()
 	cout << endl;
 	return 0;
 }
+//////////////////////////////////////////////////////////////reverse可以对string使用
+void ReverseWords(string& str)
+{
+    int n = str.size();
+    if (n <= 0)
+        return;
+
+    // 首先反转整个字符串
+    reverse(str.begin(), str.end());
+
+    int start = 0;
+    for (int end = 0; end <= n; ++end)
+    {
+        if (end == n || str[end] == ' ')  // 找到单词的结尾（空格或字符串末尾）
+        {
+            reverse(str.begin() + start, str.begin() + end);  // 反转单词
+            start = end + 1;  // 更新下一个单词的起始位置
+        }
+    }
+}
+int main()
+{
+	string s;
+	while (true)
+	{
+		getline(cin,s);
+		ReverseWords(s);
+        for (char c:s)
+        {
+            cout << c;
+        }
+        cout << endl;
+	}
+}
