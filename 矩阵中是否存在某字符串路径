@@ -1,0 +1,60 @@
+题目：矩阵中是否存在一条包含某条字符串的所有路径 单词搜素
+ bool exist(vector<vector<char>>& board, string word) {
+        int rows=board.size();
+        int cols=board[0].size();
+        vector<vector<int>> visited(rows,vector<int>(cols,0));
+        int k=0;
+        for(int i=0;i<rows;i++)
+        {
+            for(int j=0;j<cols;j++)
+            {
+                if(haspathCore(board,word,i,j,k,visited))
+                return true;
+            }
+        }
+        return false;
+    }
+    bool haspathCore(vector<vector<char>>& board,string word,int i,int j,int& k,vector<vector<int>>&visited)
+    {
+        if(k==word.size())
+        return true;
+        int rows=board.size();
+        int cols=board[0].size();
+        bool haspath=false;
+        if(i>=0&&i<rows&&j>=0&&j<cols&&board[i][j]==word[k]&&!visited[i][j])
+        {
+            ++k;
+            visited[i][j]=true;
+            haspath=haspathCore(board,word,i,j-1,k,visited)||haspathCore(board,word,i-1,j,k,visited)||
+haspathCore(board,word,i,j+1,k,visited)||haspathCore(board,word,i+1,j,k,visited);
+            if(!haspath)
+            {
+                --k;
+                visited[i][j]=false;
+            }
+        }
+        return haspath;
+    }
+int main() {
+    int m, n;
+    char s;
+    string str;
+    while (cin>>m>>n)
+    {
+        vector<vector<char>>board(m, vector<char>(n));
+        for (int i = 0; i < m; i++)
+        {
+            for (int j = 0; j < n; j++)
+            {
+                cin>>board[i][j];
+            }
+        }
+        cin.ignore();  //清除一个字符，以免getline读到换行符；
+        getline(cin, str); //是读到换行符就停止
+        cout<<exist(board, str)<<endl;
+    }
+}
+核心思路：
+exist:函数
+遍历二维字符网格 board 的每个位置。
+对于每个位置，调用 haspathCore 函数来检查从当前位置开始是否能找到目标单词 word。
