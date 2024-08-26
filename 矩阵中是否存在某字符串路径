@@ -8,7 +8,7 @@
         {
             for(int j=0;j<cols;j++)
             {
-                if(haspathCore(board,word,i,j,k,visited))
+                if(haspathCore(board,word,i,j,k,visited)) //挑一个位置开始深度搜素，若搜索函数返回true，则说明找到了，在该函数中也返回true；
                 return true;
             }
         }
@@ -16,21 +16,21 @@
     }
     bool haspathCore(vector<vector<char>>& board,string word,int i,int j,int& k,vector<vector<int>>&visited)
     {
-        if(k==word.size())
+        if(k==word.size()) // k 是一个索引，表示当前正在检查的字符在目标单词 word 中的位置
         return true;
         int rows=board.size();
         int cols=board[0].size();
-        bool haspath=false;
-        if(i>=0&&i<rows&&j>=0&&j<cols&&board[i][j]==word[k]&&!visited[i][j])
-        {
-            ++k;
+        bool haspath=false;  //用来记录从当前路径能否成功找到目标单词，初始化为false；
+        if(i>=0&&i<rows&&j>=0&&j<cols&&board[i][j]==word[k]&&!visited[i][j])  //用于决定是否继续递归搜索当前路径，若不符合则跳过，直接return初始设定的false
+        {                                                          //四个下标边界要符合，矩阵中字符要与字符串相等，且没有被遍历过;
+            ++k;                                 //这表示当前已经成功匹配了目标单词 word 中的一个字符，准备匹配下一个字符。
             visited[i][j]=true;
             haspath=haspathCore(board,word,i,j-1,k,visited)||haspathCore(board,word,i-1,j,k,visited)||
 haspathCore(board,word,i,j+1,k,visited)||haspathCore(board,word,i+1,j,k,visited);
-            if(!haspath)
+            if(!haspath)                  //是处理回溯的关键部分，
             {
-                --k;
-                visited[i][j]=false;
+                --k;                 //如果当前路径失败，需要回到上一个状态，所以 --k; 
+                visited[i][j]=false;  //如果当前路径失败，则需要将这个位置重新标记为未访问（false）
             }
         }
         return haspath;
@@ -58,3 +58,11 @@ int main() {
 exist:函数
 遍历二维字符网格 board 的每个位置。
 对于每个位置，调用 haspathCore 函数来检查从当前位置开始是否能找到目标单词 word。
+函数 haspathCore:
+
+递归地探索网格以查找单词。
+如果当前字符匹配单词中的字符，并且未被访问，则：
+标记当前字符为已访问。
+递归检查四个方向（上、下、左、右）是否能找到剩余的单词部分。
+如果递归返回 true，说明找到了完整单词；如果未找到，则恢复当前位置的状态（未访问）并退回。
+如果当前路径能成功找到完整单词，则返回 true；否则返回 false。
