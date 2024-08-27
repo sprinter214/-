@@ -1,0 +1,98 @@
+已知迷宫大小为M*N,玩家一开始在迷宫的左 上角，起点(0,0)点，要抵达迷宫的右下角，终点(M-1,N-1)。
+玩家可以控制勇者向上向右向下三个方向进行移动，一-次只能移动一格，不可以向左移动，不可以走已经走过的格子。
+在迷宫的每一格都有对应的分数，分数有正有负，移动到对应格上就要加上对应的分数。
+当玩家移动到上边缘时，则不能再往上移动
+当玩家移动到下边缘时，则不能再往下移动
+现在需要找出玩家走到终点时能获得的最大分数。
+
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <climits>
+
+using namespace std;
+
+// 定义一个常量，用来表示负无穷大，代表不可能的路径或无效的状态
+const int INF = INT_MIN;
+
+int getMaxScore(const vector<vector<int>>& maze) {
+    int M = maze.size();
+    int N = maze[0].size();
+
+    // 三维DP数组，初始化为负无穷大
+    vector<vector<int>> dp(M, vector<int>(N, INF));
+
+    // 初始化起点的值
+    dp[0][0] = maze[0][0];
+
+    // 填充第一列
+    for (int i = 1; i < M; ++i) {
+        dp[i][0] = dp[i - 1][0] + maze[i][0];
+    }
+
+    // 填充DP表
+    for (int j = 1; j < N; ++j) {
+        for (int i = 0; i < M; ++i) {
+            int maxScore = INF;
+            for (int i_prime = 0; i_prime < M; ++i_prime) {
+                int score = dp[i_prime][j - 1]; // 从上一列的某个格子出发
+                if (i_prime <= i) {
+                    // 计算从i_prime到i的路径分数
+                    for (int x = i_prime; x <= i; ++x) {
+                        score += maze[x][j];
+                    }
+                }
+                else {
+                    for (int x = i_prime; x >= i; --x) {
+                        score += maze[x][j];
+                    }
+                }
+                maxScore = max(maxScore, score);
+            }
+            dp[i][j] = maxScore;
+        }
+    }
+
+    // 返回右下角格子的最大得分
+    
+    return dp[M-1][N-1];
+}
+int main() {
+    int m, n,num;
+    while (cin>>m>>n)
+    {
+        vector<vector<int>> maze(m,vector<int>(n,0));
+        for (int i=0;i<m;i++)
+        {
+            for (int j=0;j<n;j++)
+            {
+                cin >> maze[i][j];
+            }
+        }
+        int maxScore = getMaxScore(maze);
+        cout << "到达右下角的最大得分是: " << maxScore << endl;
+    }
+    return 0;
+}
+核心思路：
+这个函数的核心思路是使用动态规划来求解一个迷宫问题中的最大得分。以下是核心思路的概括：
+
+DP 表的初始化：
+
+dp 表是一个二维数组，用来存储到达每个格子的最大得分。
+初始时，所有格子的得分设为负无穷大，表示还没有计算过。
+起点初始化：
+
+起点（dp[0][0]）的得分等于迷宫起点的值 maze[0][0]。
+填充第一列：
+
+对于第一列的每个格子，只能从其上面的格子移动过来，因此只需累加得分。
+填充 DP 表：
+
+对于每个格子 dp[i][j]，需要考虑从上一列的所有可能的格子（dp[i_prime][j - 1]）转移过来。
+计算从 i_prime 到 i 的路径得分，并更新当前格子的最大得分。
+注意处理路径得分的累加方式：根据 i_prime 和 i 的相对位置选择正确的累加方法。
+结果返回：
+
+返回右下角格子 dp[M-1][N-1] 的值，即迷宫中从起点到终点的最大得分。
+总结：这个动态规划方法通过逐步填充 DP 表，考虑从每个格子到达当前格子的所有可能路径，最终求得从起点到终点的最大得分。
