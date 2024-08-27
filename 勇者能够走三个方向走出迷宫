@@ -36,13 +36,13 @@ int getMaxScore(const vector<vector<int>>& maze) {
             int maxScore = INF;
             for (int i_prime = 0; i_prime < M; ++i_prime) {
                 int score = dp[i_prime][j - 1]; // 从上一列的某个格子出发
-                if (i_prime <= i) {
+                if (i_prime <= i) {                  //当前行前一列前半部分
                     // 计算从i_prime到i的路径分数
                     for (int x = i_prime; x <= i; ++x) {
                         score += maze[x][j];
                     }
-                }
-                else {
+                } 
+                else {                                  //当前行前一列下半部分
                     for (int x = i_prime; x >= i; --x) {
                         score += maze[x][j];
                     }
