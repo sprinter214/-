@@ -1,0 +1,25 @@
+//归并排序
+void mergesort(vecotr<int>&data,vector<int>&copy,int start,int end)
+{
+  if(start>=end)
+  return ;
+  int mid=start+(end-start)/2;
+  int low1=start;
+  int high1=mid;
+  int low2=mid+1;
+  int high2=end;
+  mergesort(copy,data,low1,high1);  //  为什么不用引用？
+  mergesort(copy,data,low2,high2);
+  while(low1<=high1&&low2<=high2)应该检查的是索引是否超出了当前区间，因为你需要包含最后一个元素。是 <= ，这个条件意味着只要两个子数组中都有未处理的元素，循环就会继续执行
+  {
+    copy[start++]=data[low1]<data[low2]?data[low1++]:data[low2++];
+  }
+  while(low1<=high1)   满足条件，表示第一个子数组中还有未处理的元素。
+  {
+    copy[start++]=data[low1++];
+  }
+  while(low2<=high2)            这两个循环在同一时刻只会执行其中一个
+  {
+    copy[start++]=data[low2++];
+  }
+}
