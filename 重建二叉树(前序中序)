@@ -1,14 +1,15 @@
 class Solution {
 public:
-    unordered_map<int,int> index;                //简历哈希表直接找出中序遍历根节点的值
+    unordered_map<int,int> index;                //建立哈希表直接找出中序遍历根节点的值
     TreeNode* rebuildTree(const vector<int>& preorder,const vector<int>& inorder,int preleft,int preright,int inoleft,int inoright)
     {                                        两个数组，四个子树范围的边界
         if(preleft>preright)
         return nullptr;
-        int pre_root=preleft;
-        int ino_root=index[preorder[pre_root]];                        ////简历哈希表直接找出中序遍历根节点的值
-        TreeNode* root=new TreeNode(preorder[preleft]);                                             //先把根节点建立出来(关键)
-        int distance=ino_root-inoleft;
+        int pre_root=preleft;                                             //找前序的中序在各自的下标
+        int ino_root=index[preorder[pre_root]];                        ////使用哈希表，通过前序遍历的值找出该值在中序遍历的位置(下标);   //若是递归环节，则变成在新的小中序中找到根节点
+        TreeNode* root=new TreeNode(preorder[preleft]);                                                  //把这一层递归的节点建立出来(关键步骤)
+        int distance=ino_root-inoleft;       //算距离，下标直接相减，distance代表当前节点左子树的节点个数。而preleft+distance是左子树最后一个一个位置的下标   
+                                                                                                    //preleft+1代表左子树第一个位置的下标  算距离是为寻找下一个节点，下个节点的范围
         root->left=rebuildTree(preorder,inorder,preleft+1,preleft+distance,inoleft,ino_root-1);       //递归地构造左子树，并连接到根节点           
         root->right=rebuildTree(preorder,inorder,preleft+distance+1,preright,ino_root+1,inoright);    //递归地构造右子树，并连接到根节点
         return root;
