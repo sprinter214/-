@@ -1,0 +1,64 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <unordered_map>
+using namespace std;
+class TreeNode
+{
+public:
+    char m_val;
+    TreeNode* m_left;
+    TreeNode* m_right;
+    TreeNode(char val) :m_val(val), m_left(nullptr), m_right(nullptr) {}
+};
+TreeNode* rebuildcode(vector<char>& preorder, vector<char>& inorder, int preleft, int preright, int inoleft, int inoright, unordered_map<char, int>& index)
+{
+    if (preleft > preright)  如果前序遍历中没有元素可以构建新的树节点，那么中序遍历的区间也不会再有有效的节点对应，所以此时不需要再额外检查 inoleft > inoright。
+        return nullptr;
+    int preroot = preleft;
+    int inoroot = index[preorder[preroot]];
+    TreeNode* root = new TreeNode(preorder[preleft]);
+    int distance = inoroot - inoleft;
+    root->m_left = rebuildcode(preorder, inorder, preleft + 1, preleft + distance, inoleft, inoroot - 1,index);
+    root->m_right = rebuildcode(preorder, inorder, preleft + distance + 1, preright, inoroot + 1, inoright,index);
+    return root;
+}
+TreeNode* rebuild(vector<char>& preorder, vector<char>& inorder)
+{
+    unordered_map<char, int>index;
+    int n = preorder.size();
+    for (int i = 0; i < n; i++)
+    {
+        index[inorder[i]] = i;
+    }
+    return rebuildcode(preorder, inorder, 0, n - 1, 0, n - 1, index);
+}
+void postorder(TreeNode* root)
+{
+    if (root == nullptr)
+        return;
+    postorder(root->m_left);
+    postorder(root->m_right);
+    cout << root->m_val;
+}
+int main()
+{
+    string c,d;
+    vector<char>a, b;
+    while (cin >> c>>d)
+    {
+        a.clear();
+        b.clear();
+        for (int i=0;i<c.size();i++)
+        {
+            a.push_back(c[i]);
+        }
+        for (int i = 0; i < d.size(); i++)
+        {
+            b.push_back(d[i]);
+        }
+        TreeNode* root=rebuild(a,b);
+        postorder(root);
+        cout << endl;
+    }
+}
