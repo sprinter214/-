@@ -1,0 +1,76 @@
+敏感词过滤一直是游戏里面最恼人的事情。恶意玩家总是想办法通过一定的修改来达到既让系统检测不到，又让其他人看出来他发的内容。
+现在，假设这些恶意玩家有这样两种操作：
+1.把字符串a的某些大写字符变成小写字符
+2.把字符串a的某些大写字符删掉
+
+现给出两个字符串，判断是否能通过上述两种操作从字符串A变成字符串B
+可以输出1，否则输出0.
+如a=aBCde 和b=abde 可以把a中B变成小写，并删除C获得
+而a=aBCde和b=afde无论如何变换都不可以
+输入描述：首先是输入一个整数q，表示有多少输入，然后是2*q行，每两行一组，表示对应的a和b，a和b的字符串大小不大于1000
+2
+DABCD
+abc
+AbcDE
+AFDE
+输出
+10；
+#include <iostream>
+#include <vector>
+#include <string>
+#include <cctype>
+using namespace std;
+void isson(string a,string b, vector<int>& results)
+{
+    int n = a.size();
+    int m = b.size();
+    if (n < m)
+        return;
+    int i = 0;
+    int j = 0;
+    while (i<n&&j<m)
+    {
+        if (islower(a[i]))
+        {
+            if (a[i]==b[j])
+            {
+                j++;
+            }
+        }
+        else //大写
+        {
+            if (a[i] == b[j])
+            {
+                j++;
+            }
+            else if (tolower(a[i])==b[j])
+            {
+                j++;
+            }
+        }
+        i++;
+    }
+    if (j == m)
+        results.push_back(1);
+    else
+        results.push_back(0);
+    return;
+}
+int main() {
+    string A, B;
+    int n;
+    vector<int> results;
+    while (cin>>n)
+    {
+        for (int i=0;i<n;i++)
+        {
+            cin >> A >> B;
+            isson(A, B,results);
+        }
+        for (int c:results)
+        {
+            cout << c ;
+        }
+    }
+}
+核心思路：利用双指针，不论是否匹配都i++，当匹配时才j++，只要有一个到达字符串边界则循环结束，结束时若j的长度等于字符串长度，则说明能够匹配
