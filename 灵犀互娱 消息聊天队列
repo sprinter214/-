@@ -1,0 +1,48 @@
+#include <iostream>
+#include <vector>
+#include <string>
+using namespace std;
+
+void seeeeeee(vector<int>& data)
+{
+    vector<int> result;
+    for (int id:data)
+    {
+        auto it = find(result.begin(),result.end(),id);
+        if (it!=result.end()) //已经出现过的会话
+        {
+            result.erase(it);
+        }
+        result.insert(result.begin(),id);
+    }
+    for (int i:result)
+    {
+        cout << i << " ";
+    }
+    cout << endl;
+}
+
+int main()
+{
+    int n, nums,a;
+    vector<int> data;
+    while (cin>>n)
+    {
+        for (int i=0;i<n;i++)
+        {
+            cin >> nums;
+            for (int j = 0; j < nums; j++)
+            {
+                cin >> a;
+                data.push_back(a);
+            }
+            seeeeeee(data);
+            data.clear();
+        }
+    }
+}
+从左到右遍历给定的会话ID序列。
+使用一个列表来记录会话ID的顺序。
+如果一个会话ID已经在列表中出现过，则删除该ID，并将其插入到列表的最前面。  it!=result.end()  find(result.begin(),result.end(),id);
+                                            如果出现过则删除 result.erase(it);     无论是否出现过，都要在最开头插入该会话    result.insert(result.begin(),id);
+最后输出列表中的顺序即为从晚到早的会话顺序。
