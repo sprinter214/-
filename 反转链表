@@ -1,0 +1,67 @@
+#include <iostream>
+#include <vector>
+#include <string>
+#include <unordered_map>
+using namespace std;
+///反转链表
+class ListNode
+{
+public:
+	int m_val;
+	ListNode* m_next;
+	ListNode(int val) :m_val(val), m_next(nullptr) {}
+};
+ListNode* reverseList(ListNode* node)
+{
+	ListNode* temp;
+	ListNode* cur = node;
+	ListNode* pre = nullptr;
+	while (cur!=nullptr)
+	{
+		temp = cur->m_next;
+		cur->m_next = pre;
+		pre = cur;      //更新已反转节点的头节点
+		cur = temp;
+	}
+	return pre;
+}
+void Print(ListNode* node)
+{
+	while (node != nullptr)
+	{
+		cout << node->m_val << " ";
+		node = node->m_next;
+	}
+}
+int main()
+{
+	int n,m;
+	while (cin>>n)
+	{
+		if (n == 0)
+		{
+			cout << "list is empty" << endl;
+		}
+		ListNode* head = nullptr;//head 用于保存链表的头节点，即链表中第一个节点的地址。在链表构造过程中，一旦第一个节点被创建，head 就会指向这个节点，之后不会再改变。通过 head，可以访问整个链表。
+		ListNode* cur = nullptr;  //cur 用于遍历链表或在链表构造过程中指向当前操作的节点。它随着链表的构造而移动，用于保持对链表末尾节点的引用，以便在链表中添加新节点。
+		for (int i=0;i<n;i++)
+		{
+			cin >> m;
+			ListNode* node = new ListNode(m);
+			if (head==nullptr)
+			{
+				head = node;  //ead 用于保存链表的头节点，即链表中第一个节点的地址。在链表构造过程中，一旦第一个节点被创建，head 就会指向这个节点，之后不会再改变。通过 head，可以访问整个链表。
+				cur = node;  
+			}
+			else
+			{
+				cur->m_next = node;
+				cur = cur->m_next;
+			}
+		}
+		Print(head);
+		cout << endl;
+		head=reverseList(head);
+		Print(head);
+	}
+}
