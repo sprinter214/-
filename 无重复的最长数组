@@ -63,7 +63,7 @@ int lengthOfLongestSubstring(string s) {
                     occ.erase(s[i-1]);erase 是 C++ 标准库中容器类（如 unordered_set、vector、list 等）自带的成员函数。它用于删除容器中的元素
                 }                     count 是 C++ 标准库中 unordered_set 提供的成员函数。count 用于检查集合中是否存在特定元素。对于 unordered_set 而言，count 函数的返回值只能是 0 或 1
                                       insert 是 C++ 标准库中容器类（如 unordered_set, set, vector, list, map 等）提供的成员函数。它用于向容器中添加元素。具体行为和用法根据容器的类型略有不同。
-                while(rk+1<n&&occ.count(s[rk+1]))      /////关键点rk + 1 < n 确保不会越界。!occ.count(s[rk + 1]) 确保即将加入的字符在当前窗口内没有重复。 occ.insert(s[++rk]) 将字符插入集合并移动右指针。
+                while(rk+1<n&&!occ.count(s[rk+1]))      /////关键点rk + 1 < n 确保不会越界。!occ.count(s[rk + 1]) 确保即将加入的字符在当前窗口内没有重复。 occ.insert(s[++rk]) 将字符插入集合并移动右指针。
                 {
                     occ.insert(s[rk+1]);
                     ++rk;
