@@ -1,0 +1,23 @@
+class Solution {
+public:
+    vector<vector<int>> subsets(vector<int>& nums) {
+        vector<vector<int>> ans;
+        vector<int> path;
+        int n = nums.size();
+        // 调用递归函数
+        backtrack(nums, 0, path, ans);
+        return ans;
+    }
+
+private:
+    // 定义递归函数
+    void backtrack(vector<int>& nums, int start, vector<int>& path, vector<vector<int>>& ans) {
+        // 将当前路径添加到结果中
+        ans.emplace_back(path);
+        for (int j = start; j < nums.size(); ++j) {
+            path.push_back(nums[j]); // 选择当前元素
+            backtrack(nums, j + 1, path, ans); // 递归处理下一个元素
+            path.pop_back(); // 恢复现场
+        }
+    }
+};
