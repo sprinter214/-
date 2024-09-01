@@ -1,0 +1,42 @@
+vector<int> ans;
+void sortnums(vector<int>&nums)
+{
+	int n = nums.size();
+	if (n == 0)
+		return;
+	vector<int> sums;
+	vector<pair<int, int>>paired;
+	for (int i=0;i<n;i++)
+	{
+		int sum = 0;
+		int temp = nums[i];
+		while (temp>10)
+		{
+			sum += temp % 10;
+			temp = temp / 10;
+		}
+		sum += temp % 10;
+		sums.push_back(sum);
+		paired.emplace_back(sum, nums[i]);
+	}
+	stable_sort(paired.begin(),paired.end());
+	for (auto& i:paired)
+	{
+		cout << i.second << " ";
+	}
+	cout << endl;
+}
+int main()
+{
+	int n, m;
+	while (cin>>n)
+	{
+		vector<int>nums(n);
+		for (int i=0;i<n;i++)
+		{
+			cin >> nums[i];
+		}
+		sortnums(nums);
+	}
+	return 0;
+}
