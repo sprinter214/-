@@ -1,0 +1,35 @@
+void heapAdjust(vector<int>& vec, int len, int parent)   heapAdjust 函数：用于调整堆，使其满足堆的性质（这里是最大堆）。
+{
+    int largest = parent;              vec：要排序的数组
+    int left = 2 * parent + 1;         len：当前堆的大小（或有效范围），因为在堆排序过程中，堆的大小会逐渐减少。
+    int right = 2 * parent + 2;        parent：要调整的节点（堆中的索引）。
+
+    if (left < len && vec[left] > vec[largest])
+    {
+        largest = left;                                      如果左子节点存在并且大于当前父节点，则更新 largest 为左子节点的索引。
+    }
+    if (right < len && vec[right] > vec[largest])
+    {
+        largest = right;                        如果右子节点存在并且大于当前 largest，则更新 largest 为右子节点的索引。
+    }
+    if (largest != parent)                       如果 largest 发生了变化，说明父节点不满足最大堆的性质，需要交换父节点与 largest 对应的子节点，然后递归调用 heapAdjust 继续调整子树
+    {
+        swap(vec[parent], vec[largest]);
+        heapAdjust(vec, len, largest);
+    }
+}
+
+void heapSort(vector<int>& vec)     heapSort 函数：实现堆排序的整体流程。
+{
+    int size = vec.size(); 
+    for (int i = size / 2 - 1; i >= 0; --i)                  
+    {               
+        heapAdjust(vec, vec.size(), i);            首先从第一个非叶子节点（索引为 size / 2 - 1）开始，向上依次调用 heapAdjust，构建最大堆。
+    }
+
+    for (int i = size - 1; i > 0; --i)
+    {
+        swap(vec[0], vec[i]);
+        heapAdjust(vec, i, 0);
+    }
+}
