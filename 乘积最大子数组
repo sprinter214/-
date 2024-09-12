@@ -1,0 +1,14 @@
+class Solution {
+public:
+    int maxProduct(vector<int>& nums) {
+ long maxF = nums[0], minF = nums[0], ans = nums[0];  
+        for (int i = 1; i < nums.size(); ++i) {         maxF 是一个变量，表示到当前位置 i 为止的最大乘积。
+            long mx = maxF, mn = minF;             mx 是一个局部变量，用于保存 maxF 的当前值的副本，用来防止更新过程中干扰 maxF 和 minF 的计算。
+            maxF = max(mx * nums[i], max((long)nums[i], mn * nums[i]));   此处若只使用maxF，下一条式的maxF会改变从而干扰结果
+            minF = min(mn * nums[i], min((long)nums[i], mx * nums[i]));
+        
+            ans = max(maxF, ans);
+        }
+        return ans;
+    }
+};
