@@ -1,0 +1,21 @@
+int sumsquare(int n)
+{
+  if(n==0)
+ {
+  return 0;
+ }
+  vector<int>dp(n+1);               //dp[i] 表示最少由多少个完全平方数之和组成整数 i
+  for(int i=1;i<=n;i++)
+  {
+    int minm=INT_MAX;
+    for(int j=1;j*j<=i;j++)
+    {
+        minm=min(dp[i-j*j],minm);  //当前的dp[i]由两个部分构成，一部分是当前使用的平方数j*j，剩下一部分就是i-j*j
+    }
+      dp[i]=minm+1;                 //所以dp的最小值是剩下一部分中完全平方数最小值再加一
+  }
+  return dp[n];
+}
+对每个 i（从1到 n），通过遍历所有小于等于 i 的完全平方数（即 j*j<=i 的 j）来计算最优解。
+对于每个 i，找到之前计算过的最优子问题 dp[i - j*j]，然后加1（因为加上了平方数 j*j）。
+最后返回 dp[n]，即构成整数 n 的最少完全平方数数量。
