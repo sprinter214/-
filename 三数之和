@@ -35,7 +35,7 @@ public:
         sort(nums.begin(),nums.end());
         for(int i=0;i<n-2;i++)
         {
-            if(i>0&&nums[i]==nums[i-1])continue;
+            if(i>0&&nums[i]==nums[i-1])continue;     在第一个指针中跳过相同的元素，i>0避免数据越界。
             int left=i+1;
             int right=n-1;
             while(left<right)
@@ -44,7 +44,7 @@ public:
                 if(sum==0)
                 {
                 ans.push_back({nums[i],nums[left],nums[right]});
-                while(left<right&&nums[left]==nums[left+1])left++;
+                while(left<right&&nums[left]==nums[left+1])left++;  //因为要不断跳过重复的元素，left在跳过的过程中也要保证left<right
                 while(left<right&&nums[right]==nums[right-1])right--;
                 left++;
                 right--;
