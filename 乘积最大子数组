@@ -1,14 +1,36 @@
-class Solution {
-public:
-    int maxProduct(vector<int>& nums) {
- long maxF = nums[0], minF = nums[0], ans = nums[0];  
-        for (int i = 1; i < nums.size(); ++i) {         maxF 是一个变量，表示到当前位置 i 为止的最大乘积。
-            long mx = maxF, mn = minF;             mx 是一个局部变量，用于保存 maxF 的当前值的副本，用来防止更新过程中干扰 maxF 和 minF 的计算。
-            maxF = max(mx * nums[i], max((long)nums[i], mn * nums[i]));   此处若只使用maxF，下一条式的maxF会改变从而干扰结果
-            minF = min(mn * nums[i], min((long)nums[i], mx * nums[i]));
-        
-            ans = max(maxF, ans);
-        }
-        return ans;
+使用三个数进行维护，分别是到当前位置的最大乘积maxF，到当前位置的最小乘积minF，以及存储的答案ans
+int Maxmul(vector<int>nums)
+{
+  int n=nums.size();
+  if(n==0)
+  {
+    return 0;
+  }
+  long maxF=nums[0],minF=nums[0],ans=nums[0];
+      for(int i=1;i<n;i++)
+    {
+      long mx=maxF,nx=minF;
+      maxF=max(mx*nums[i],max((long)nums[i],nx*nums[i]));
+      minF=min(mx*nums[i],min((long)nums[i],nx*nums[i]));
+      ans=max(ans,maxF);
     }
-};
+  return ans;
+}
+核心思路：
+maxF（当前最大乘积）：用于记录到当前位置的子数组的最大乘积。
+minF（当前最小乘积）：用于记录到当前位置的子数组的最小乘积。负数的乘积可能成为最大乘积，所以需要跟踪最小乘积。
+ans（全局最大乘积）：用于记录到目前为止的最大乘积。
+2. 遍历数组
+对于每个元素 nums[i]，更新 maxF 和 minF：
+
+保存当前状态：
+
+mx 记录当前 maxF 的值。
+mn 记录当前 minF 的值。
+更新 maxF 和 minF：
+
+maxF 更新为：
+mx * nums[i]（当前最大乘积与 nums[i] 的乘积）
+mn * nums[i]（当前最小乘积与 nums[i] 的乘积，考虑负数乘法的影响）
+nums[i]（单独的元素作为新的子数组的起点）
+从这三个值中选择最大值。
