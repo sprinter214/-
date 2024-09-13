@@ -1,0 +1,28 @@
+判断五张牌是不是连续的，大小王可以看成是任意数。
+核心思路：先把数组排序，同时统计数组中大小王的个数，最后统计排序之后数组相邻数字之间的空缺数，如果
+空缺数小于等于零的个数，那么这个数组是连续的，反之不连续，同时若同时出现两个相同的数，也说明是不连续
+bool IsContinue(vector<int> nums)
+{
+  int n=nums.size();
+  if(n<1)
+  {
+    return false;
+  }
+  int numZero;
+  int numGap;
+  for(int i=0;i<n&&nums[i]==0;i++)
+  {
+    numZero++;
+  }
+  int small=numZero;
+  int big=numZero++;
+  while(big<n)
+  {
+    if(nums[small]==nums[big])
+    return false;
+    numGap+=nums[big]-nums[small]-1;
+    small=big;
+    big++;
+  }
+  return (numGap>numZero)?false:true;
+}
