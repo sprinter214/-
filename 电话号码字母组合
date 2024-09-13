@@ -3,8 +3,8 @@ class Solution {
     vector<string> ans;  一个字符串向量，用于存储最终结果（所有可能的字母组合）。
     string path;          一个字符串，用于存储算法进行过程中当前的字母组合。
 
-    void dfs(const string& digits, int i, int n) {
-        if (i == n) {
+    void dfs(const string& digits, int i, int n) {   i 是当前正在处理的 digits 字符串中的下标，表示当前递归到哪个数字了。
+        if (i == n) {                                n 是数字字符串 digits 的长度，表示递归的结束条件。
             ans.emplace_back(path);
             return;
         }
