@@ -1,0 +1,57 @@
+第一题；指针的传递，指向指针的指针的传递
+void GetMemory(char *p)   //错误，p是按值传递
+{
+    p = (char*)malloc(100);//因此对p分配新的内存空间时，只是修改了p的地址空间，str并没有改变。
+}
+void Test(void)
+{
+    char* str = NULL;
+    GetMemory(str);     //此处仅传递了str的地址的值，p和str是两个不同的指针变量
+    strcpy(str,"Hello World");
+    printf("\%s",str);
+}
+////////////////////////////////////////////////////////////////////////////////////////////////正确应该改为
+void GetMemory(char **p)  // 修改为指针的指针
+{
+    *p = (char*)malloc(100);  // 通过指针的指针修改实际的指针
+}
+
+void Test(void)
+{
+    char* str = NULL;
+    GetMemory(&str);  // 传递指针的地址
+    strcpy(str, "Hello World");
+    printf("%s", str);
+    
+    // 别忘了释放内存
+    free(str);
+}
+第二题，返回局部变量的地址///////////////////////////////////////////////////////////
+char* GetMemory(void)   //
+{
+    char p[] = "hello world";
+    return p;
+}
+void Test(void)
+{
+    char* str = NULL;
+    str=GetMemory();     //
+    printf("\%s",str);
+}
+///修正后的代码
+har* GetMemory(void)
+{
+    char* p = (char*)malloc(12 * sizeof(char));  // 动态分配内存
+    strcpy(p, "hello world");                    // 复制字符串到动态内存中
+    return p;                                    // 返回动态分配的内存地址
+}
+
+void Test(void)
+{
+    char* str = NULL;
+    str = GetMemory();     // 调用 GetMemory()
+    printf("%s\n", str);
+
+    free(str);  // 使用完动态分配的内存后，记得释放
+}
+第三题//////////////////////////////////////////
